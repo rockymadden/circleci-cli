@@ -1,0 +1,7 @@
+dependencies:
+  pre:
+    - sudo make dependencies
+
+test:
+  override:
+    - make test
