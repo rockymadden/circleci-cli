@@ -69,7 +69,7 @@ Convenience Commands:
             OS X notification with the details
 ```
 
-> __PROTIP:__ Project names are represented as composition of username and project name
+> __PROTIP:__ Project names are represented as combination of username and project name
 (e.g. rockymadden/circleci-cli).
 
 > __PROTIP:__ Filters are simply [jq](https://github.com/stedolan/jq) filters, you can provide any
