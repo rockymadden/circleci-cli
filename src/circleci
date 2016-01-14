@@ -235,7 +235,7 @@ case "${1}" in
     esac
   ;;
 
-  notify|notify-osx)
+  notify)
     while (( "$#" )); do
       case "${2}" in
         --number=*) number=${2/--number=/''} ; shift ;;
