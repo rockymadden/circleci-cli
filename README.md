@@ -74,7 +74,7 @@ arguments. This allows for both traditional usage and prompt-based usage.
 $ circleci notify rockymadden/circleci-cli 2
 ```
 
-![example](http://share.rockymadden.com/1q0H011u232E/Screen%20Recording%202016-01-14%20at%2010.21%20AM.gif)
+![example](http://share.rockymadden.com/1h2w3x2u2B0f/Screen%20Recording%202016-01-14%20at%2011.24%20AM.gif)
 
 ### Create a simple list of projects for further processing (e.g. xargs back into circleci-cli):
 ```bash
