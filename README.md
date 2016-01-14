@@ -6,6 +6,17 @@
 [![slack](http://img.shields.io/badge/slack-join-e01563.svg)](https://rockymadden-slackin.herokuapp.com/)
 [![circleci](https://circleci.com/gh/rockymadden/circleci-cli.svg?style=shield)](https://circleci.com/gh/rockymadden/circleci-cli)
 
+A simple, yet extremely flexible command line interface for [CircleCI](https://circleci.com).
+Deep integration with [jq](https://github.com/stedolan/jq) allows for the ability to perform
+complex declarative/higher-order operations, facilitating complex piping and composition operations
+to be done with ease.
+
+__Richly formatted JSON output by default:__
+![rich json](http://share.rockymadden.com/463u2x0z0j1v/Image%202016-01-14%20at%2011.36.39%20AM.png)
+
+__Simple, yet robust filtering capabilities:__
+![rich json](http://share.rockymadden.com/0c210D3Q0u2g/Image%202016-01-14%20at%2011.37.16%20AM.png)
+
 ## Installation
 ```bash
 # Install from tap:
@@ -74,7 +85,7 @@ arguments. This allows for both traditional usage and prompt-based usage.
 $ circleci notify rockymadden/circleci-cli 2
 ```
 
-![example](http://share.rockymadden.com/1q0H011u232E/Screen%20Recording%202016-01-14%20at%2010.21%20AM.gif)
+![example](http://share.rockymadden.com/1h2w3x2u2B0f/Screen%20Recording%202016-01-14%20at%2011.24%20AM.gif)
 
 ### Create a simple list of projects for further processing (e.g. xargs back into circleci-cli):
 ```bash
