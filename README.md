@@ -37,6 +37,7 @@ Usage:
   circleci artifacts <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
   circleci await <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
     [--resolution|-r <seconds>]
+  circleci browse <project> [build|branch]
   circleci build <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
   circleci builds <project> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
   circleci cancel <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
@@ -65,12 +66,16 @@ Core Commands:
 
 Convenience Commands:
   await     Await success or failure of a given build for a given project
-  notify    Await success or failure of a given build for a given project and create an
-            OS X notification with the details
+  browse    Open CircleCI page of a given project and, optionally, for a given build/branch
+  notify    Await success or failure of a given build for a given project and create an OS X
+            notification with the details
 ```
 
 > __PROTIP:__ Project names are represented as combination of username and project name
 (e.g. rockymadden/circleci-cli).
+
+> __PROTIP:__ If you are in a git repo, you can use the `--` shorthand in place of the actual
+project name.
 
 > __PROTIP:__ Filters are simply [jq](https://github.com/stedolan/jq) filters, you can provide any
 filter that it can handle.
@@ -93,6 +98,15 @@ $ circleci projects --filter='.[] | .username + "/" + .reponame'
 rockymadden/circleci-cli
 rockymadden/slack-cli
 ...
+```
+
+> __PROTIP:__ Filters are simply [jq](https://stedolan.github.io/jq/manual/) filters, you can
+provide any filter that it can handle.
+
+### Using project shorthand while inside git repo:
+```bash
+$ circleci project --
+$ circleci builds --
 ```
 
 > __PROTIP:__ Filters are simply [jq](https://stedolan.github.io/jq/manual/) filters, you can
