@@ -490,7 +490,7 @@ case "${1}" in
     echo
     echo "Convenience Commands:"
     echo "  await     Await success or failure of a given build for a given project"
-    echo "  browse    Open CircleCI page of a given project and, optionally, for a given build/branch"
+    echo "  browse    Open CircleCI page of a given project"
     echo "  notify    Await success or failure of a given build for a given project and create an OS X"
     echo "            notification with the details"
   ;;

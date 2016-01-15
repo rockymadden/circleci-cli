@@ -8,8 +8,8 @@
 
 A simple, yet extremely flexible command line interface for [CircleCI](https://circleci.com). Deep
 integration with [jq](https://github.com/stedolan/jq) allows for the ability to perform complex
-declarative/higher-order operations on responses, helping you perform complex piping and
-compositional operations with relative ease.
+declarative/higher-order operations on responses, helping you perform complex piping/compositional
+operations with relative ease.
 
 __Example of richly formatted JSON output, which comes by default:__
 ![rich json](http://share.rockymadden.com/463u2x0z0j1v/Image%202016-01-14%20at%2011.36.39%20AM.png)
@@ -66,7 +66,7 @@ Core Commands:
 
 Convenience Commands:
   await     Await success or failure of a given build for a given project
-  browse    Open CircleCI page of a given project and, optionally, for a given build/branch
+  browse    Open CircleCI page of a given project
   notify    Await success or failure of a given build for a given project and create an OS X
             notification with the details
 ```
