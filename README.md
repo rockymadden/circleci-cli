@@ -103,7 +103,7 @@ rockymadden/slack-cli
 > __PROTIP:__ Filters are simply [jq](https://stedolan.github.io/jq/manual/) filters, you can
 provide any filter that it can handle.
 
-### Using project shorthand while inside git repo:
+### Using project shorthand while inside a GitHub-based git repo:
 ```bash
 $ circleci project --
 $ circleci builds --
