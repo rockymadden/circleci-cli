@@ -12,10 +12,10 @@ declarative/higher-order operations on responses, helping you perform complex pi
 operations with relative ease.
 
 __Example of richly formatted JSON output, which comes by default:__
-![rich json](http://share.rockymadden.com/463u2x0z0j1v/Image%202016-01-14%20at%2011.36.39%20AM.png)
+![rich json](http://share.rockymadden.com/390C0x2A2a32/Image%202016-01-14%20at%2010.50.37%20PM.png)
 
 __Example of filtering capabilities:__
-![rich json](http://share.rockymadden.com/0c210D3Q0u2g/Image%202016-01-14%20at%2011.37.16%20AM.png)
+![rich json](http://share.rockymadden.com/1g2i173R2c1k/Image%202016-01-14%20at%2010.52.23%20PM.png)
 
 ## Installation
 ```bash
@@ -103,7 +103,7 @@ rockymadden/slack-cli
 > __PROTIP:__ Filters are simply [jq](https://stedolan.github.io/jq/manual/) filters, you can
 provide any filter that it can handle.
 
-### Using project shorthand while inside git repo:
+### Using project shorthand while inside a GitHub-based git repo:
 ```bash
 $ circleci project --
 $ circleci builds --
