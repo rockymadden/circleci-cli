@@ -422,7 +422,6 @@ case "${1}" in
     echo
     echo "Core Commands:"
     echo "  artifacts    List the artifacts produced by a given build for a given project"
-    echo "  await        Await success or failure of a given build for a given project"
     echo "  build        Details of a given build for a given project"
     echo "  builds       Details of all builds for a given project"
     echo "  cancel       Cancel a given build for a given project"
@@ -433,6 +432,7 @@ case "${1}" in
     echo "  trigger      Trigger a new build of a given branch for a given project"
     echo
     echo "Convenience Commands:"
+    echo "  await     Await success or failure of a given build for a given project"
     echo "  notify    Await success or failure of a given build for a given project and create an"
     echo "            OS X notification with the details"
   ;;

@@ -54,7 +54,6 @@ Setup Commands:
 
 Core Commands:
   artifacts    List the artifacts produced by a given build for a given project
-  await        Await success or failure of a given build for a given project
   build        Details of a given build for a given project
   builds       Details of all builds for a given project
   cancel       Cancel a given build for a given project
@@ -65,6 +64,7 @@ Core Commands:
   trigger      Trigger a new build of a given branch for a given project
 
 Convenience Commands:
+  await     Await success or failure of a given build for a given project
   notify    Await success or failure of a given build for a given project and create an
             OS X notification with the details
 ```
