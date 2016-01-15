@@ -6,10 +6,10 @@
 [![slack](http://img.shields.io/badge/slack-join-e01563.svg)](https://rockymadden-slackin.herokuapp.com/)
 [![circleci](https://circleci.com/gh/rockymadden/circleci-cli.svg?style=shield)](https://circleci.com/gh/rockymadden/circleci-cli)
 
-A simple, yet extremely flexible command line interface for [CircleCI](https://circleci.com), made
-lovingly in pure bash. Deep integration with [jq](https://github.com/stedolan/jq) allows for the
-ability to perform complex declarative/higher-order operations on responses, helping you perform
-complex piping and compositional operations with relative ease.
+A simple, yet extremely flexible command line interface for [CircleCI](https://circleci.com). Deep
+integration with [jq](https://github.com/stedolan/jq) allows for the ability to perform complex
+declarative/higher-order operations on responses, helping you perform complex piping and
+compositional operations with relative ease.
 
 __Example of richly formatted JSON output, which comes by default:__
 ![rich json](http://share.rockymadden.com/463u2x0z0j1v/Image%202016-01-14%20at%2011.36.39%20AM.png)
@@ -108,9 +108,6 @@ provide any filter that it can handle.
 $ circleci project --
 $ circleci builds --
 ```
-
-> __PROTIP:__ Filters are simply [jq](https://stedolan.github.io/jq/manual/) filters, you can
-provide any filter that it can handle.
 
 ## License
 ```
