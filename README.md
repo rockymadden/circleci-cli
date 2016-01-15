@@ -74,7 +74,7 @@ Convenience Commands:
 > __PROTIP:__ Project names are represented as combination of username and project name
 (e.g. rockymadden/circleci-cli).
 
-> __PROTIP:__ If you are in a git repo, you can use the `--` shorthand in place of the actual
+> __PROTIP:__ Inside a GitHub-based git repo you can use the `--` shorthand in place of the actual
 project name.
 
 > __PROTIP:__ Filters are simply [jq](https://github.com/stedolan/jq) filters, you can provide any
