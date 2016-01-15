@@ -6,10 +6,10 @@
 [![slack](http://img.shields.io/badge/slack-join-e01563.svg)](https://rockymadden-slackin.herokuapp.com/)
 [![circleci](https://circleci.com/gh/rockymadden/circleci-cli.svg?style=shield)](https://circleci.com/gh/rockymadden/circleci-cli)
 
-A simple, yet extremely flexible command line interface for [CircleCI](https://circleci.com), made
-lovingly in pure bash. Deep integration with [jq](https://github.com/stedolan/jq) allows for the
-ability to perform complex declarative/higher-order operations on responses, helping you perform
-complex piping and compositional operations with relative ease.
+A simple, yet extremely flexible command line interface for [CircleCI](https://circleci.com). Deep
+integration with [jq](https://github.com/stedolan/jq) allows for the ability to perform complex
+declarative/higher-order operations on responses, helping you perform complex piping/compositional
+operations with relative ease.
 
 __Example of richly formatted JSON output, which comes by default:__
 ![rich json](http://share.rockymadden.com/463u2x0z0j1v/Image%202016-01-14%20at%2011.36.39%20AM.png)
@@ -37,6 +37,7 @@ Usage:
   circleci artifacts <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
   circleci await <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
     [--resolution|-r <seconds>]
+  circleci browse <project> [build|branch]
   circleci build <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
   circleci builds <project> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
   circleci cancel <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
@@ -54,7 +55,6 @@ Setup Commands:
 
 Core Commands:
   artifacts    List the artifacts produced by a given build for a given project
-  await        Await success or failure of a given build for a given project
   build        Details of a given build for a given project
   builds       Details of all builds for a given project
   cancel       Cancel a given build for a given project
@@ -65,12 +65,17 @@ Core Commands:
   trigger      Trigger a new build of a given branch for a given project
 
 Convenience Commands:
-  notify    Await success or failure of a given build for a given project and create an
-            OS X notification with the details
+  await     Await success or failure of a given build for a given project
+  browse    Open CircleCI page of a given project
+  notify    Await success or failure of a given build for a given project and create an OS X
+            notification with the details
 ```
 
 > __PROTIP:__ Project names are represented as combination of username and project name
 (e.g. rockymadden/circleci-cli).
+
+> __PROTIP:__ Inside a GitHub-based git repo you can use the `--` shorthand in place of the actual
+project name.
 
 > __PROTIP:__ Filters are simply [jq](https://github.com/stedolan/jq) filters, you can provide any
 filter that it can handle.
@@ -97,6 +102,12 @@ rockymadden/slack-cli
 
 > __PROTIP:__ Filters are simply [jq](https://stedolan.github.io/jq/manual/) filters, you can
 provide any filter that it can handle.
+
+### Using project shorthand while inside git repo:
+```bash
+$ circleci project --
+$ circleci builds --
+```
 
 ## License
 ```

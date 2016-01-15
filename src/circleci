@@ -4,22 +4,31 @@ bindir=
 etcdir=
 token=$(test -f "${etcdir}/circleci" && sed -n '1p' < "${etcdir}/circleci")
 
+function git-project() {
+  local url=$(hub browse -u)
+  local name="$(echo ${url} | cut -d '/' -f4)/$(echo ${url} | cut -d '/' -f5)"
+
+  echo ${name}
+}
+
 case "${1}" in
   artifacts)
+    test "${2}" = '--' && { project=$(git-project) ; shift ; }
+
     while (( "$#" )); do
       case "${2}" in
+        --build=*) build=${2/--build=/''} ; shift ;;
         --compact) compact='-c' ; shift ;;
         --filter=*) filter=${2/--filter=/''} ; shift ;;
         --monochrome) monochrome='-M' ; shift ;;
-        --number=*) number=${2/--number=/''} ; shift ;;
         --project=*) project=${2/--project=/''} ; shift ;;
+        -b*) build=${3} ; shift ; shift ;;
         -c) compact='-c' ; shift ;;
         -f*) filter=${3} ; shift ; shift ;;
         -m) monochrome='-M' ; shift ;;
-        -n*) number=${3} ; shift ; shift ;;
         -p*) project=${3} ; shift ; shift ;;
         *)
-          test -n "${2}" && test -n "${project}" && number=${2}
+          test -n "${2}" && test -n "${project}" && build=${2}
           test -n "${2}" && test -z "${project}" && project=${2}
           shift
         ;;
@@ -27,11 +36,11 @@ case "${1}" in
     done
 
     test -z "${project}" && read -e -p 'Enter project slug (e.g. rockymadden/circleci-cli): ' project
-    test -z "${number}" && read -e -p 'Enter number (e.g. 123): ' number
+    test -z "${build}" && read -e -p 'Enter build (e.g. 123): ' build
 
     rsp=$(\
       curl -f -s -H 'Accept: application/json' \
-      "https://circleci.com/api/v1/project/${project}/${number}/artifacts?circle-token=${token}")
+      "https://circleci.com/api/v1/project/${project}/${build}/artifacts?circle-token=${token}")
 
     case "$?" in
       0) echo ${rsp} | jq -r ${compact} ${monochrome} "${filter:=.}" ;;
@@ -41,23 +50,24 @@ case "${1}" in
 
   await)
     while (( "$#" )); do
+      test "${2}" = '--' && { project=$(git-project) ; shift ; }
       resolution=15
 
       case "${2}" in
+        --build=*) build=${2/--build=/''} ; shift ;;
         --compact) compact='-c' ; shift ;;
         --filter=*) filter=${2/--filter=/''} ; shift ;;
         --monochrome) monochrome='-M' ; shift ;;
-        --number=*) number=${2/--number=/''} ; shift ;;
         --project=*) project=${2/--project=/''} ; shift ;;
         --resolution=*) resolution=${2/--resolution=/''} ; shift ;;
+        -b*) build=${3} ; shift ; shift ;;
         -c) compact='-c' ; shift ;;
         -f*) filter=${3} ; shift ; shift ;;
         -m) monochrome='-M' ; shift ;;
-        -n*) number=${3} ; shift ; shift ;;
         -p*) project=${3} ; shift ; shift ;;
         -r*) resolution=${3} ; shift ; shift ;;
         *)
-          test -n "${2}" && test -n "${project}" && number=${2}
+          test -n "${2}" && test -n "${project}" && build=${2}
           test -n "${2}" && test -z "${project}" && project=${2}
           shift
         ;;
@@ -65,12 +75,12 @@ case "${1}" in
     done
 
     test -z "${project}" && read -e -p 'Enter project slug (e.g. rockymadden/circleci-cli): ' project
-    test -z "${number}" && read -e -p 'Enter number (e.g. 123): ' number
+    test -z "${build}" && read -e -p 'Enter build (e.g. 123): ' build
 
     function _await() {
       local rsp=$(\
         curl -f -s -H 'Accept: application/json' \
-        "https://circleci.com/api/v1/project/${project}/${number}?circle-token=${token}")
+        "https://circleci.com/api/v1/project/${project}/${build}?circle-token=${token}")
 
       case "$?" in
         0)
@@ -90,21 +100,23 @@ case "${1}" in
     exit $?
   ;;
 
-  build)
+  browse)
+    test "${2}" = '--' && { project=$(git-project) ; shift ; }
+
     while (( "$#" )); do
       case "${2}" in
-        --compact) compact='-c' ; shift ;;
-        --filter=*) filter=${2/--filter=/''} ; shift ;;
-        --monochrome) monochrome='-M' ; shift ;;
-        --number=*) number=${2/--number=/''} ; shift ;;
+        --branch=*) branch=${2/--branch=/''} ; shift ;;
+        --build=*) build=${2/--build=/''} ; shift ;;
         --project=*) project=${2/--project=/''} ; shift ;;
-        -c) compact='-c' ; shift ;;
-        -f*) filter=${3} ; shift ; shift ;;
-        -m) monochrome='-M' ; shift ;;
-        -n*) number=${3} ; shift ; shift ;;
+        -B*) branch=${3} ; shift ; shift ;;
+        -b*) build=${3} ; shift ; shift ;;
         -p*) project=${3} ; shift ; shift ;;
         *)
-          test -n "${2}" && test -n "${project}" && number=${2}
+          test -n "${2}" && test -n "${project}" && \
+            case "${2}" in
+              *[!0-9]*) branch=${2} ;;
+              *) build=${2} ;;
+            esac
           test -n "${2}" && test -z "${project}" && project=${2}
           shift
         ;;
@@ -112,11 +124,43 @@ case "${1}" in
     done
 
     test -z "${project}" && read -e -p 'Enter project slug (e.g. rockymadden/circleci-cli): ' project
-    test -z "${number}" && read -e -p 'Enter number (e.g. 123): ' number
+
+    if [ -n "${branch}" ]; then
+      open "https://circleci.com/gh/${project}/tree/${branch}"
+    else
+      open "https://circleci.com/gh/${project}/${build}"
+    fi
+  ;;
+
+  build)
+    test "${2}" = '--' && { project=$(git-project) ; shift ; }
+
+    while (( "$#" )); do
+      case "${2}" in
+        --build=*) build=${2/--build=/''} ; shift ;;
+        --compact) compact='-c' ; shift ;;
+        --filter=*) filter=${2/--filter=/''} ; shift ;;
+        --monochrome) monochrome='-M' ; shift ;;
+        --project=*) project=${2/--project=/''} ; shift ;;
+        -b*) build=${3} ; shift ; shift ;;
+        -c) compact='-c' ; shift ;;
+        -f*) filter=${3} ; shift ; shift ;;
+        -m) monochrome='-M' ; shift ;;
+        -p*) project=${3} ; shift ; shift ;;
+        *)
+          test -n "${2}" && test -n "${project}" && build=${2}
+          test -n "${2}" && test -z "${project}" && project=${2}
+          shift
+        ;;
+      esac
+    done
+
+    test -z "${project}" && read -e -p 'Enter project slug (e.g. rockymadden/circleci-cli): ' project
+    test -z "${build}" && read -e -p 'Enter build (e.g. 123): ' build
 
     rsp=$(\
       curl -f -s -H 'Accept: application/json' \
-      "https://circleci.com/api/v1/project/${project}/${number}?circle-token=${token}")
+      "https://circleci.com/api/v1/project/${project}/${build}?circle-token=${token}")
 
     case "$?" in
       0) echo ${rsp} | jq -r ${compact} ${monochrome} "${filter:=.}" ;;
@@ -125,6 +169,8 @@ case "${1}" in
   ;;
 
   builds)
+    test "${2}" = '--' && { project=$(git-project) ; shift ; }
+
     while (( "$#" )); do
       case "${2}" in
         --compact) compact='-c' ; shift ;;
@@ -155,20 +201,22 @@ case "${1}" in
   ;;
 
   cancel)
+    test "${2}" = '--' && { project=$(git-project) ; shift ; }
+
     while (( "$#" )); do
       case "${2}" in
+        --build=*) build=${2/--build=/''} ; shift ;;
         --compact) compact='-c' ; shift ;;
         --filter=*) filter=${2/--filter=/''} ; shift ;;
         --monochrome) monochrome='-M' ; shift ;;
-        --number=*) number=${2/--number=/''} ; shift ;;
         --project=*) project=${2/--project=/''} ; shift ;;
+        -b*) build=${3} ; shift ; shift ;;
         -c) compact='-c' ; shift ;;
         -f*) filter=${3} ; shift ; shift ;;
         -m) monochrome='-M' ; shift ;;
-        -n*) number=${3} ; shift ; shift ;;
         -p*) project=${3} ; shift ; shift ;;
         *)
-          test -n "${2}" && test -n "${project}" && number=${2}
+          test -n "${2}" && test -n "${project}" && build=${2}
           test -n "${2}" && test -z "${project}" && project=${2}
           shift
         ;;
@@ -176,11 +224,11 @@ case "${1}" in
     done
 
     test -z "${project}" && read -e -p 'Enter project slug (e.g. rockymadden/circleci-cli): ' project
-    test -z "${number}" && read -e -p 'Enter number (e.g. 123): ' number
+    test -z "${build}" && read -e -p 'Enter build (e.g. 123): ' build
 
     rsp=$(\
       curl -f -s -X POST -H 'Accept: application/json' \
-      "https://circleci.com/api/v1/project/${project}/${number}/cancel?circle-token=${token}")
+      "https://circleci.com/api/v1/project/${project}/${build}/cancel?circle-token=${token}")
 
     case "$?" in
       0) echo ${rsp} | jq -r ${compact} ${monochrome} "${filter:=.}" ;;
@@ -236,21 +284,23 @@ case "${1}" in
   ;;
 
   notify)
+    test "${2}" = '--' && { project=$(git-project) ; shift ; }
+
     while (( "$#" )); do
       case "${2}" in
-        --number=*) number=${2/--number=/''} ; shift ;;
+        --build=*) build=${2/--build=/''} ; shift ;;
         --project=*) project=${2/--project=/''} ; shift ;;
-        -n*) number=${3} ; shift ; shift ;;
+        -b*) build=${3} ; shift ; shift ;;
         -p*) project=${3} ; shift ; shift ;;
         *)
-          test -n "${2}" && test -n "${project}" && number=${2}
+          test -n "${2}" && test -n "${project}" && build=${2}
           test -n "${2}" && test -z "${project}" && project=${2}
           shift
         ;;
       esac
     done
 
-    rsp=$(${0} await --compact --monochrome --project="${project}" --number="${number}")
+    rsp=$(${0} await --compact --monochrome --project="${project}" --build="${build}")
 
     case "$?" in
       0)
@@ -268,6 +318,8 @@ case "${1}" in
   ;;
 
   project)
+    test "${2}" = '--' && { project=$(git-project) ; shift ; }
+
     while (( "$#" )); do
       case "${2}" in
         --compact) compact='-c' ; shift ;;
@@ -325,20 +377,22 @@ case "${1}" in
   ;;
 
   retry)
+    test "${2}" = '--' && { project=$(git-project) ; shift ; }
+
     while (( "$#" )); do
       case "${2}" in
+        --build=*) build=${2/--build=/''} ; shift ;;
         --compact) compact='-c' ; shift ;;
         --filter=*) filter=${2/--filter=/''} ; shift ;;
         --monochrome) monochrome='-M' ; shift ;;
-        --number=*) number=${2/--number=/''} ; shift ;;
         --project=*) project=${2/--project=/''} ; shift ;;
+        -b*) build=${3} ; shift ; shift ;;
         -c) compact='-c' ; shift ;;
         -f*) filter=${3} ; shift ; shift ;;
         -m) monochrome='-M' ; shift ;;
-        -n*) number=${3} ; shift ; shift ;;
         -p*) project=${3} ; shift ; shift ;;
         *)
-          test -n "${2}" && test -n "${project}" && number=${2}
+          test -n "${2}" && test -n "${project}" && build=${2}
           test -n "${2}" && test -z "${project}" && project=${2}
           shift
         ;;
@@ -346,11 +400,11 @@ case "${1}" in
     done
 
     test -z "${project}" && read -e -p 'Enter project slug (e.g. rockymadden/circleci-cli): ' project
-    test -z "${number}" && read -e -p 'Enter number (e.g. 123): ' number
+    test -z "${build}" && read -e -p 'Enter build (e.g. 123): ' build
 
     rsp=$(\
       curl -f -s -X POST -H 'Accept: application/json' \
-      "https://circleci.com/api/v1/project/${project}/${number}/retry?circle-token=${token}")
+      "https://circleci.com/api/v1/project/${project}/${build}/retry?circle-token=${token}")
 
     case "$?" in
       0) echo ${rsp} | jq -r ${compact} ${monochrome} "${filter:=.}" ;;
@@ -359,6 +413,8 @@ case "${1}" in
   ;;
 
   trigger)
+    test "${2}" = '--' && { project=$(git-project) ; shift ; }
+
     while (( "$#" )); do
       case "${2}" in
         --branch=*) branch=${2/--branch=/''} ; shift ;;
@@ -367,7 +423,7 @@ case "${1}" in
         --monochrome) monochrome='-M' ; shift ;;
         --project=*) project=${2/--project=/''} ; shift ;;
         --parameters=*) parameters=${2/--parameters=/''} ; shift ;;
-        -b*) branch=${3} ; shift ; shift ;;
+        -B*) branch=${3} ; shift ; shift ;;
         -c) compact='-c' ; shift ;;
         -f*) filter=${3} ; shift ; shift ;;
         -m) monochrome='-M' ; shift ;;
@@ -405,6 +461,7 @@ case "${1}" in
     echo "  ${bin} artifacts <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
     echo "  ${bin} await <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
     echo "    [--resolution|-r <seconds>]"
+    echo "  ${bin} browse <project> [build|branch]"
     echo "  ${bin} build <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
     echo "  ${bin} builds <project> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
     echo "  ${bin} cancel <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
@@ -422,7 +479,6 @@ case "${1}" in
     echo
     echo "Core Commands:"
     echo "  artifacts    List the artifacts produced by a given build for a given project"
-    echo "  await        Await success or failure of a given build for a given project"
     echo "  build        Details of a given build for a given project"
     echo "  builds       Details of all builds for a given project"
     echo "  cancel       Cancel a given build for a given project"
@@ -433,8 +489,10 @@ case "${1}" in
     echo "  trigger      Trigger a new build of a given branch for a given project"
     echo
     echo "Convenience Commands:"
-    echo "  notify    Await success or failure of a given build for a given project and create an"
-    echo "            OS X notification with the details"
+    echo "  await     Await success or failure of a given build for a given project"
+    echo "  browse    Open CircleCI page of a given project"
+    echo "  notify    Await success or failure of a given build for a given project and create an OS X"
+    echo "            notification with the details"
   ;;
 
   --version|-v) echo 'v0.0.0' ;;
