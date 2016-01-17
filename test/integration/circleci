@@ -1,0 +1,87 @@
+#!/usr/bin/env bats
+
+function setup() {
+  if [ -z "${CIRCLECI_CLI_TOKEN}" ]; then
+    skip "Environment variable not defined"
+  fi
+
+  sleep 4 # Poor man's throttle
+}
+
+# Init:
+@test "init should succeed predictably" {
+  build/bin/circleci init --token=${CIRCLECI_CLI_TOKEN}
+}
+
+# No side-effects:
+@test "artifacts should succeed predictably" {
+  run build/bin/circleci artifacts rockymadden/circleci-cli 1
+  [ ${status} -eq 0 ]
+  [ "${output}" = '[]' ]
+}
+
+@test "build should succeed predictably" {
+  run build/bin/circleci build rockymadden/circleci-cli 1 --filter='.build_num'
+  [ ${status} -eq 0 ]
+  [ "${output}" = '1' ]
+}
+
+@test "builds should succeed predictably" {
+  run build/bin/circleci builds rockymadden/circleci-cli --filter='.[] | .build_num'
+  [ ${status} -eq 0 ]
+  [ "${#lines[@]}" -gt 1 ]
+}
+
+@test "me should succeed predictably" {
+  run build/bin/circleci me --filter='.login'
+  [ ${status} -eq 0 ]
+  [ "${output}" = 'rockymadden' ]
+}
+
+@test "project should succeed predictably" {
+  run build/bin/circleci project rockymadden/circleci-cli --filter='.username + "/" + .reponame'
+  [ ${status} -eq 0 ]
+  [ "${output}" = 'rockymadden/circleci-cli' ]
+}
+
+@test "projects should succeed predictably" {
+  run build/bin/circleci projects --filter='.[] | .username + "/" + .reponame'
+  [ ${status} -eq 0 ]
+  [ "${#lines[@]}" -gt 1 ]
+}
+
+@test "await should succeed predictably" {
+  run build/bin/circleci await rockymadden/circleci-cli 1 --filter='.status'
+  [ ${status} -eq 0 ]
+  [ "${output}" = 'no_tests' ]
+}
+
+@test "notify should succeed predictably" {
+  if [ "$(uname -s)" != 'Darwin' ]; then
+    skip "Not OS X"
+  fi
+
+  build/bin/circleci notify rockymadden/circleci-cli 1
+}
+
+@test "browse should succeed predictably" {
+  if [ "$(uname -s)" != 'Darwin' ]; then
+    skip "Not OS X"
+  fi
+
+  build/bin/circleci browse rockymadden/circleci-cli 1
+}
+
+# Side effects:
+@test "retry should succeed predictably" {
+  run build/bin/circleci retry rockymadden/circleci-cli 1 --filter='.status'
+  [ ${status} -eq 0 ]
+  [ "${output}" = 'scheduled' ]
+}
+
+@test "cancel should succeed predictably" {
+  retry=$(build/bin/circleci retry rockymadden/circleci-cli 1 --filter='.build_num')
+  run build/bin/circleci cancel rockymadden/circleci-cli "${retry}" --filter='.status'
+  [ ${status} -eq 0 ]
+  [ "${output}" = 'canceled' ]
+}
