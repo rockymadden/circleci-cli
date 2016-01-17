@@ -1,0 +1,25 @@
+#!/usr/bin/env bats
+
+function setup() {
+  if [ -z "${CIRCLECI_CLI_TOKEN}" ]; then
+    skip "Environment variable not defined"
+  fi
+
+  sleep 2
+}
+
+@test "init should succeed predictably" {
+  build/bin/circleci init --token=${CIRCLECI_CLI_TOKEN}
+}
+
+@test "me should succeed predictably" {
+  run build/bin/circleci me --filter='.login'
+  [ ${status} -eq 0 ]
+  [ "${output}" = 'rockymadden' ]
+}
+
+@test "projects should succeed predictably" {
+  run build/bin/circleci projects --filter='.[] | .username + "/" + .reponame'
+  [ ${status} -eq 0 ]
+  [ "${#lines[@]}" -gt 1 ]
+}

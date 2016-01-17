@@ -42,13 +42,10 @@ stub:
 test: | test-unit test-integration
 
 test-integration: | install
-	@bats \
-		test/integration/init.bats \
-		test/integration/me.bats \
-		test/integration/projects.bats
+	@bats test/integration/circleci
 
 test-unit: | install
-	@bats test/unit
+	@bats test/unit/circleci
 
 uninstall:
 	@rm -rf ${bindir}
