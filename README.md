@@ -82,7 +82,7 @@ $ circleci project --
 $ circleci builds --
 ```
 
-### Creating list of projects for further processing (e.g. xargs back into circleci-cli):
+### Creating project list for further processing (e.g. xargs back into circleci-cli):
 ```bash
 $ circleci projects --filter='.[] | .username + "/" + .reponame'
 rockymadden/circleci-cli
