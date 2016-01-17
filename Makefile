@@ -39,11 +39,13 @@ stub:
 	@mkdir -p ${bindir}
 	@mkdir -p ${etcdir}
 
-test: | install
-	@test/circleci
+test: | test-unit
+
+test-unit: | install
+	@bats test/unit
 
 uninstall:
 	@rm -rf ${bindir}
 	@rm -rf ${etcdir}
 
-.PHONY: apt brew clean dependencies install stub test uninstall
+.PHONY: apt brew clean dependencies install stub test test-unit uninstall
