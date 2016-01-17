@@ -18,6 +18,12 @@ function setup() {
   [ "${output}" = 'rockymadden' ]
 }
 
+@test "project should succeed predictably" {
+  run build/bin/circleci project rockymadden/circleci-cli --filter='.username + "/" + .reponame'
+  [ ${status} -eq 0 ]
+  [ "${output}" = 'rockymadden/circleci-cli' ]
+}
+
 @test "projects should succeed predictably" {
   run build/bin/circleci projects --filter='.[] | .username + "/" + .reponame'
   [ ${status} -eq 0 ]
