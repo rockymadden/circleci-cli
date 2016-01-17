@@ -18,6 +18,7 @@ while (( "$#" )); do
     --compact) compact='-c' ; shift ;;
     --filter=*) filter=${1/--filter=/''} ; shift ;;
     --monochrome) monochrome='-M' ; shift ;;
+    --parameters=*) parameters=${1/--parameters=/''} ; shift ;;
     --project=*) project=${1/--project=/''} ; shift ;;
     --resolution=*) resolution=${1/--resolution=/''} ; shift ;;
     --token=*) token=${1/--token=/''} ; shift ;;
@@ -26,6 +27,7 @@ while (( "$#" )); do
     -c) compact='-c' ; shift ;;
     -f*) filter=${2} ; shift ; shift ;;
     -m) monochrome='-M' ; shift ;;
+    -P*) parameters=${2} ; shift ; shift ;;
     -p*) project=${2} ; shift ; shift ;;
     -r*) resolution=${2} ; shift ; shift ;;
     -t*) token=${2} ; shift ; shift ;;
