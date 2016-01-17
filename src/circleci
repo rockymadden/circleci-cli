@@ -9,7 +9,7 @@ cmd="${1}" ; shift
 resolution=15
 
 function shorthand-build() {
-  echo $(circleci builds ${1} --filter='.[] | .build_num' | head -n 1)
+  echo $("${bindir}/circleci" builds ${1} --filter='.[] | .build_num' | head -n 1)
 }
 
 function shorthand-project() {
