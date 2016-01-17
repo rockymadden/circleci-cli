@@ -3,19 +3,14 @@
 [![versioning](http://img.shields.io/badge/versioning-semver-blue.svg)](http://semver.org/)
 [![branching](http://img.shields.io/badge/branching-github%20flow-blue.svg)](https://guides.github.com/introduction/flow/)
 [![license](http://img.shields.io/badge/license-mit-blue.svg)](https://opensource.org/licenses/MIT)
-[![slack](http://img.shields.io/badge/slack-join-e01563.svg)](https://rockymadden-slackin.herokuapp.com/)
+[![slack](http://img.shields.io/badge/slack-join-e01563.svg)](https://rockymadden-slack.herokuapp.com/)
 [![circleci](https://circleci.com/gh/rockymadden/circleci-cli.svg?style=shield)](https://circleci.com/gh/rockymadden/circleci-cli)
 
 A simple, yet extremely flexible command line interface for [CircleCI](https://circleci.com). Deep
 integration with [jq](https://github.com/stedolan/jq) allows for the ability to perform complex
 declarative/higher-order operations on responses, helping you perform complex piping/compositional
-operations with relative ease.
-
-__Example of richly formatted JSON output, which comes by default:__
-![rich json](http://share.rockymadden.com/390C0x2A2a32/Image%202016-01-14%20at%2010.50.37%20PM.png)
-
-__Example of filtering capabilities:__
-![rich json](http://share.rockymadden.com/1g2i173R2c1k/Image%202016-01-14%20at%2010.52.23%20PM.png)
+operations with relative ease (see [integration tests](test/integration/circleci) for some simple
+examples).
 
 ## Installation
 ```bash
@@ -71,28 +66,24 @@ Convenience Commands:
             notification with the details
 ```
 
-> __PROTIP:__ Project names are represented as combination of username and project name
+> __PROTIPS:__
+* Project names are represented as combination of username and project name
 (e.g. rockymadden/circleci-cli).
-
-> __PROTIP:__ Inside a GitHub-based git repo you can use the `--` shorthand in place of the actual
-project name.
-
-> __PROTIP:__ Filters are simply [jq](https://github.com/stedolan/jq) filters, you can provide any
-filter that it can handle.
-
-> __PROTIP:__ All commands prompt for required arguments which were not provided via options or
-arguments. This allows for both traditional usage and prompt-based usage.
+* Inside a GitHub-based git repo you can use the `--` shorthand in place of the actual project name.
+* Filters are simply [jq filters](https://stedolan.github.io/jq/manual/), you can provide any filter
+that it can handle.
+* All commands prompt for required arguments which were not provided via options or arguments. This
+allows for both traditional usage and prompt-based usage.
 
 ## Examples and Recipes
 
-### OS X notification when a build succeeds or fails:
+### Using project shorthand while inside a GitHub-based git repo:
 ```bash
-$ circleci notify rockymadden/circleci-cli 2
+$ circleci project --
+$ circleci builds --
 ```
 
-![example](http://share.rockymadden.com/1h2w3x2u2B0f/Screen%20Recording%202016-01-14%20at%2011.24%20AM.gif)
-
-### Simple list of projects for further processing (e.g. xargs back into circleci-cli):
+### Creating project list for further processing (e.g. xargs back into circleci-cli):
 ```bash
 $ circleci projects --filter='.[] | .username + "/" + .reponame'
 rockymadden/circleci-cli
@@ -100,14 +91,8 @@ rockymadden/slack-cli
 ...
 ```
 
-> __PROTIP:__ Filters are simply [jq](https://stedolan.github.io/jq/manual/) filters, you can
+> __PROTIP:__ Filters are simply [jq filters](https://stedolan.github.io/jq/manual/), you can
 provide any filter that it can handle.
-
-### Using project shorthand while inside a GitHub-based git repo:
-```bash
-$ circleci project --
-$ circleci builds --
-```
 
 ## License
 ```

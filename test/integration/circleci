@@ -1,19 +1,15 @@
 #!/usr/bin/env bats
 
 function setup() {
-  if [ -z "${CIRCLECI_CLI_TOKEN}" ]; then
-    skip "Environment variable not defined"
-  fi
-
-  sleep 4 # Poor man's throttle
+  test -z "${CIRCLECI_CLI_TOKEN}" && skip 'Environment variable should exist'
+  sleep 5 # Poor man's throttle
 }
 
-# Init:
 @test "init should succeed predictably" {
   build/bin/circleci init --token=${CIRCLECI_CLI_TOKEN}
 }
 
-# No side-effects:
+# Commands without side effects:
 @test "artifacts should succeed predictably" {
   run build/bin/circleci artifacts rockymadden/circleci-cli 1
   [ ${status} -eq 0 ]
@@ -57,22 +53,16 @@ function setup() {
 }
 
 @test "notify should succeed predictably" {
-  if [ "$(uname -s)" != 'Darwin' ]; then
-    skip "Not OS X"
-  fi
-
+  test "$(uname -s)" != 'Darwin' && skip 'OS X should be available'
   build/bin/circleci notify rockymadden/circleci-cli 1
 }
 
 @test "browse should succeed predictably" {
-  if [ "$(uname -s)" != 'Darwin' ]; then
-    skip "Not OS X"
-  fi
-
+  test "$(uname -s)" != 'Darwin' && skip 'OS X should be available'
   build/bin/circleci browse rockymadden/circleci-cli 1
 }
 
-# Side effects:
+# Commands with side effects:
 @test "retry should succeed predictably" {
   run build/bin/circleci retry rockymadden/circleci-cli 1 --filter='.status'
   [ ${status} -eq 0 ]
@@ -80,8 +70,7 @@ function setup() {
 }
 
 @test "cancel should succeed predictably" {
-  retry=$(build/bin/circleci retry rockymadden/circleci-cli 1 --filter='.build_num')
-  run build/bin/circleci cancel rockymadden/circleci-cli "${retry}" --filter='.status'
+  run bash -c "build/bin/circleci retry rockymadden/circleci-cli 1 --filter='.build_num' | xargs -I{} build/bin/circleci cancel rockymadden/circleci-cli '{}' --filter='.status'"
   [ ${status} -eq 0 ]
   [ "${output}" = 'canceled' ]
 }
