@@ -12,6 +12,12 @@ function setup() {
   build/bin/circleci init --token=${CIRCLECI_CLI_TOKEN}
 }
 
+@test "artifacts should succeed predictably" {
+  run build/bin/circleci artifacts rockymadden/circleci-cli 1
+  [ ${status} -eq 0 ]
+  [ "${output}" = '[]' ]
+}
+
 @test "build should succeed predictably" {
   run build/bin/circleci build rockymadden/circleci-cli 1 --filter='.build_num'
   [ ${status} -eq 0 ]
