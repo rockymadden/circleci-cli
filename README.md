@@ -69,8 +69,8 @@ Convenience Commands:
 * Project names are represented as combination of username and project name
 (e.g. rockymadden/circleci-cli).
 * Inside a GitHub-based git repo you can use the `--` shorthand in place of the actual project name.
-* Filters are simply [jq](https://github.com/stedolan/jq) filters, you can provide any filter that
-it can handle.
+* Filters are simply [jq filters](https://stedolan.github.io/jq/manual/), you can provide any filter
+that it can handle.
 * All commands prompt for required arguments which were not provided via options or arguments. This
 allows for both traditional usage and prompt-based usage.
 
@@ -90,7 +90,7 @@ rockymadden/slack-cli
 ...
 ```
 
-> __PROTIP:__ Filters are simply [jq](https://stedolan.github.io/jq/manual/) filters, you can
+> __PROTIP:__ Filters are simply [jq filters](https://stedolan.github.io/jq/manual/), you can
 provide any filter that it can handle.
 
 ## License
