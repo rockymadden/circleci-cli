@@ -11,12 +11,6 @@ integration with [jq](https://github.com/stedolan/jq) allows for the ability to 
 declarative/higher-order operations on responses, helping you perform complex piping/compositional
 operations with relative ease.
 
-__Example of richly formatted JSON output, which comes by default:__
-![rich json](http://share.rockymadden.com/390C0x2A2a32/Image%202016-01-14%20at%2010.50.37%20PM.png)
-
-__Example of filtering capabilities:__
-![rich json](http://share.rockymadden.com/1g2i173R2c1k/Image%202016-01-14%20at%2010.52.23%20PM.png)
-
 ## Installation
 ```bash
 # Install from tap:
