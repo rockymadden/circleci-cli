@@ -2,74 +2,114 @@
 
 function setup() {
   test -z "${CIRCLECI_CLI_TOKEN}" && skip 'Environment variable should exist'
-  sleep 5 # Poor man's throttle
+  sleep 10 # Poor man's throttle
 }
 
-@test "init should succeed predictably" {
+@test "init should succeed" {
   build/bin/circleci init --token=${CIRCLECI_CLI_TOKEN}
 }
 
 # Commands without side effects:
-@test "artifacts should succeed predictably" {
+@test "artifacts should succeed" {
   run build/bin/circleci artifacts rockymadden/circleci-cli 1
   [ ${status} -eq 0 ]
   [ "${output}" = '[]' ]
 }
 
-@test "build should succeed predictably" {
+@test "artifacts should succeed with shorthand project and build" {
+  run build/bin/circleci artifacts -- --
+  [ ${status} -eq 0 ]
+  [ "${output}" = '[]' ]
+}
+
+@test "build should succeed" {
   run build/bin/circleci build rockymadden/circleci-cli 1 --filter='.build_num'
   [ ${status} -eq 0 ]
   [ "${output}" = '1' ]
 }
 
-@test "builds should succeed predictably" {
+@test "build should succeed with shorthand project and build" {
+  run build/bin/circleci build -- -- --filter='.build_num'
+  [ ${status} -eq 0 ]
+  [ "${output}" -gt 1 ]
+}
+
+@test "builds should succeed" {
   run build/bin/circleci builds rockymadden/circleci-cli --filter='.[] | .build_num'
   [ ${status} -eq 0 ]
   [ "${#lines[@]}" -gt 1 ]
 }
 
-@test "me should succeed predictably" {
+@test "builds should succeed with shorthand project" {
+  run build/bin/circleci builds -- --filter='.[] | .build_num'
+  [ ${status} -eq 0 ]
+  [ "${#lines[@]}" -gt 1 ]
+}
+
+@test "me should succeed" {
   run build/bin/circleci me --filter='.login'
   [ ${status} -eq 0 ]
   [ "${output}" = 'rockymadden' ]
 }
 
-@test "project should succeed predictably" {
+@test "project should succeed" {
   run build/bin/circleci project rockymadden/circleci-cli --filter='.username + "/" + .reponame'
   [ ${status} -eq 0 ]
   [ "${output}" = 'rockymadden/circleci-cli' ]
 }
 
-@test "projects should succeed predictably" {
+@test "project should succeed with shorthand project" {
+  run build/bin/circleci project -- --filter='.username + "/" + .reponame'
+  [ ${status} -eq 0 ]
+  [ "${output}" = 'rockymadden/circleci-cli' ]
+}
+
+@test "projects should succeed" {
   run build/bin/circleci projects --filter='.[] | .username + "/" + .reponame'
   [ ${status} -eq 0 ]
   [ "${#lines[@]}" -gt 1 ]
 }
 
-@test "await should succeed predictably" {
+@test "await should succeed" {
   run build/bin/circleci await rockymadden/circleci-cli 1 --filter='.status'
   [ ${status} -eq 0 ]
   [ "${output}" = 'no_tests' ]
 }
 
-@test "notify should succeed predictably" {
+@test "await should succeed with shorthand project and build" {
+  run build/bin/circleci await -- -- --filter='.username + "/" + .reponame'
+  [ ${status} -eq 0 ]
+  [ "${output}" = 'rockymadden/circleci-cli' ]
+}
+
+@test "notify should succeed" {
   test "$(uname -s)" != 'Darwin' && skip 'OS X should be available'
   build/bin/circleci notify rockymadden/circleci-cli 1
 }
 
-@test "browse should succeed predictably" {
+@test "notify should succeed with shorthand project and build" {
+  test "$(uname -s)" != 'Darwin' && skip 'OS X should be available'
+  build/bin/circleci notify -- --
+}
+
+@test "browse should succeed" {
   test "$(uname -s)" != 'Darwin' && skip 'OS X should be available'
   build/bin/circleci browse rockymadden/circleci-cli 1
 }
 
+@test "browse should succeed with shorthand project and build" {
+  test "$(uname -s)" != 'Darwin' && skip 'OS X should be available'
+  build/bin/circleci browse -- --
+}
+
 # Commands with side effects:
-@test "retry should succeed predictably" {
+@test "retry should succeed" {
   run build/bin/circleci retry rockymadden/circleci-cli 1 --filter='.status'
   [ ${status} -eq 0 ]
   [ "${output}" = 'scheduled' ]
 }
 
-@test "cancel should succeed predictably" {
+@test "cancel should succeed" {
   run bash -c "build/bin/circleci retry rockymadden/circleci-cli 1 --filter='.build_num' | xargs -I{} build/bin/circleci cancel rockymadden/circleci-cli '{}' --filter='.status'"
   [ ${status} -eq 0 ]
   [ "${output}" = 'canceled' ]

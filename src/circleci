@@ -1,16 +1,22 @@
 #!/usr/bin/env bash
 
 bindir=
-cmd="${1}" ; shift
 etcdir=
-if [ "${1}" = '--' ]; then
-  project=$(echo $(hub browse -u) | cut -d '/' -f4)/$(echo $(hub browse -u) | cut -d '/' -f5)
-  shift
-fi
-resolution=15
 token=$(test -f "${etcdir}/circleci" && sed -n '1p' < "${etcdir}/circleci")
 
 # Option parsing:
+cmd="${1}" ; shift
+resolution=15
+
+function shorthand-build() {
+  echo $(circleci builds ${1} --filter='.[] | .build_num' | head -n 1)
+}
+
+function shorthand-project() {
+  local url=$(hub browse -u)
+  echo "$(echo "${url}" | cut -d '/' -f4)/$(echo "${url}" | cut -d '/' -f5)"
+}
+
 while (( "$#" )); do
   case "${1}" in
     --branch=*) branch=${1/--branch=/''} ; shift ;;
@@ -31,6 +37,18 @@ while (( "$#" )); do
     -p*) project=${2} ; shift ; shift ;;
     -r*) resolution=${2} ; shift ; shift ;;
     -t*) token=${2} ; shift ; shift ;;
+    --)
+      case "${cmd}" in
+        artifacts|await|browse|build|cancel|notify|retry)
+          test -n "${project}" && build=$(shorthand-build ${project})
+          test -z "${project}" && project=$(shorthand-project)
+        ;;
+        builds|project|trigger)
+          test -z "${project}" && project=$(shorthand-project)
+        ;;
+      esac
+      shift
+    ;;
     *)
       case "${cmd}" in
         artifacts|await|build|cancel|notify|retry)
