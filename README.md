@@ -79,14 +79,13 @@ arguments. This allows for both traditional usage and prompt-based usage.
 
 ## Examples and Recipes
 
-### OS X notification when a build succeeds or fails:
+### Using project shorthand while inside a GitHub-based git repo:
 ```bash
-$ circleci notify rockymadden/circleci-cli 2
+$ circleci project --
+$ circleci builds --
 ```
 
-![example](http://share.rockymadden.com/1h2w3x2u2B0f/Screen%20Recording%202016-01-14%20at%2011.24%20AM.gif)
-
-### Simple list of projects for further processing (e.g. xargs back into circleci-cli):
+### Creating list of projects for further processing (e.g. xargs back into circleci-cli):
 ```bash
 $ circleci projects --filter='.[] | .username + "/" + .reponame'
 rockymadden/circleci-cli
@@ -96,12 +95,6 @@ rockymadden/slack-cli
 
 > __PROTIP:__ Filters are simply [jq](https://stedolan.github.io/jq/manual/) filters, you can
 provide any filter that it can handle.
-
-### Using project shorthand while inside a GitHub-based git repo:
-```bash
-$ circleci project --
-$ circleci builds --
-```
 
 ## License
 ```
