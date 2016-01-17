@@ -65,17 +65,14 @@ Convenience Commands:
             notification with the details
 ```
 
-> __PROTIP:__ Project names are represented as combination of username and project name
+> __PROTIPS:__
+* Project names are represented as combination of username and project name
 (e.g. rockymadden/circleci-cli).
-
-> __PROTIP:__ Inside a GitHub-based git repo you can use the `--` shorthand in place of the actual
-project name.
-
-> __PROTIP:__ Filters are simply [jq](https://github.com/stedolan/jq) filters, you can provide any
-filter that it can handle.
-
-> __PROTIP:__ All commands prompt for required arguments which were not provided via options or
-arguments. This allows for both traditional usage and prompt-based usage.
+* Inside a GitHub-based git repo you can use the `--` shorthand in place of the actual project name.
+* Filters are simply [jq](https://github.com/stedolan/jq) filters, you can provide any filter that
+it can handle.
+* All commands prompt for required arguments which were not provided via options or arguments. This
+allows for both traditional usage and prompt-based usage.
 
 ## Examples and Recipes
 
