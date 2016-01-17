@@ -213,7 +213,7 @@ function me() {
 }
 
 function notify() {
-  local rsp=$(${0} await --compact --monochrome --project="${project}" --build="${build}" --resolution="${resolution}")
+  local rsp ; rsp=$(${0} await -c -m -p "${project}" -b "${build}" -r "${resolution}")
 
   case "$?" in
     0)
