@@ -42,7 +42,7 @@ stub:
 test: | test-unit test-integration
 
 test-integration: | install
-	@bats test/integration/init.bats
+	@bats test/integration/init.bats test/integration/me.bats
 
 test-unit: | install
 	@bats test/unit
