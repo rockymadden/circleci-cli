@@ -4,6 +4,6 @@ load suite
 
 @test "me should succeed predictably" {
   run build/bin/circleci me --filter='.login'
-  [ $status -eq 0 ]
-  [ "$output" = 'rockymadden' ]
+  [ ${status} -eq 0 ]
+  [ "${output}" = 'rockymadden' ]
 }
