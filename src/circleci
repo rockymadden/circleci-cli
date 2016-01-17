@@ -40,7 +40,7 @@ while (( "$#" )); do
     --)
       case "${cmd}" in
         artifacts|await|browse|build|cancel|notify|retry)
-          test -n "${project}" && build=$(shorthand-build ${project})
+          test -n "${project}" && build=$(shorthand-build "${project}")
           test -z "${project}" && project=$(shorthand-project)
         ;;
         builds|project|trigger)
