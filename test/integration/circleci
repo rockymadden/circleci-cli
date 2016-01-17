@@ -5,15 +5,14 @@ function setup() {
     skip "Environment variable not defined"
   fi
 
-  sleep 4 # Poor man's throttle
+  sleep 5 # Poor man's throttle
 }
 
-# Init:
 @test "init should succeed predictably" {
   build/bin/circleci init --token=${CIRCLECI_CLI_TOKEN}
 }
 
-# No side-effects:
+# Commands with no side effects:
 @test "artifacts should succeed predictably" {
   run build/bin/circleci artifacts rockymadden/circleci-cli 1
   [ ${status} -eq 0 ]
@@ -72,7 +71,7 @@ function setup() {
   build/bin/circleci browse rockymadden/circleci-cli 1
 }
 
-# Side effects:
+# Commands with side effects:
 @test "retry should succeed predictably" {
   run build/bin/circleci retry rockymadden/circleci-cli 1 --filter='.status'
   [ ${status} -eq 0 ]
