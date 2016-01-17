@@ -39,7 +39,10 @@ stub:
 	@mkdir -p ${bindir}
 	@mkdir -p ${etcdir}
 
-test: | test-unit
+test: | test-unit test-integration
+
+test-integration: | install
+	@bats test/integration/init.bats
 
 test-unit: | install
 	@bats test/unit
@@ -48,4 +51,4 @@ uninstall:
 	@rm -rf ${bindir}
 	@rm -rf ${etcdir}
 
-.PHONY: apt brew clean dependencies install stub test test-unit uninstall
+.PHONY: apt brew clean dependencies install stub test test-integration test-unit uninstall
