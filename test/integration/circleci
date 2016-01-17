@@ -50,6 +50,28 @@ function setup() {
   [ "${#lines[@]}" -gt 1 ]
 }
 
+@test "await should succeed predictably" {
+  run build/bin/circleci await rockymadden/circleci-cli 1 --filter='.status'
+  [ ${status} -eq 0 ]
+  [ "${output}" = 'no_tests' ]
+}
+
+@test "notify should succeed predictably" {
+  if [ "$(uname -s)" != 'Darwin' ]; then
+    skip "Not OS X"
+  fi
+
+  build/bin/circleci notify rockymadden/circleci-cli 1
+}
+
+@test "browse should succeed predictably" {
+  if [ "$(uname -s)" != 'Darwin' ]; then
+    skip "Not OS X"
+  fi
+
+  build/bin/circleci browse rockymadden/circleci-cli 1
+}
+
 # Side effects:
 @test "retry should succeed predictably" {
   run build/bin/circleci retry rockymadden/circleci-cli 1 --filter='.status'
@@ -58,15 +80,8 @@ function setup() {
 }
 
 @test "cancel should succeed predictably" {
-  build=$(build/bin/circleci retry rockymadden/circleci-cli 1 --filter='.build_num')
-  run build/bin/circleci cancel rockymadden/circleci-cli "${build}" --filter='.status'
+  retry=$(build/bin/circleci retry rockymadden/circleci-cli 1 --filter='.build_num')
+  run build/bin/circleci cancel rockymadden/circleci-cli "${retry}" --filter='.status'
   [ ${status} -eq 0 ]
   [ "${output}" = 'canceled' ]
-}
-
-@test "await should succeed predictably" {
-  build=$(build/bin/circleci retry rockymadden/circleci-cli 1 --filter='.build_num')
-  run build/bin/circleci await rockymadden/circleci-cli "${build}" --filter='.status'
-  [ ${status} -eq 1 ]
-  [ "${output}" = 'no_tests' ]
 }

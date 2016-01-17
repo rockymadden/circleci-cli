@@ -101,7 +101,7 @@ function await() {
         case "${outcome}" in
           null) sleep "${resolution}" ; go ;;
           success) echo ${rsp} | jq -r ${compact} ${monochrome} "${filter:=.}" ;;
-          *) echo ${rsp} | jq -r ${compact} ${monochrome} "${filter:=.}" ; return 1 ;;
+          *) echo ${rsp} | jq -r ${compact} ${monochrome} "${filter:=.}" ;;
         esac
       ;;
       *) return 1 ;;
