@@ -164,7 +164,7 @@ function help() {
   echo "  ${bin} cancel <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
   echo "  ${bin} init [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--token|-t <token>]"
   echo "  ${bin} me [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
-  echo "  ${bin} notify <project> <build>"
+  echo "  ${bin} notify <project> <build> [--resolution|-r <seconds>]"
   echo "  ${bin} project <project> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
   echo "  ${bin} projects [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
   echo "  ${bin} retry <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"

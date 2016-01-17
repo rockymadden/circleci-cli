@@ -43,7 +43,7 @@ Usage:
   circleci cancel <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
   circleci init [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--token|-t <token>]
   circleci me [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
-  circleci notify <project> <build>
+  circleci notify <project> <build> [--resolution|-r <seconds>]
   circleci project <project> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
   circleci projects [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
   circleci retry <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
