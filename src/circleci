@@ -493,6 +493,7 @@ case "${1}" in
     echo "  browse    Open CircleCI page of a given project"
     echo "  notify    Await success or failure of a given build for a given project and create an OS X"
     echo "            notification with the details"
+    echo
   ;;
 
   --version|-v) echo 'v0.1.0' ;;
