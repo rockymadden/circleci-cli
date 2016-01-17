@@ -17,6 +17,7 @@ function setup() {
 }
 
 @test "artifacts should succeed with shorthand project and build" {
+  test "$(uname -s)" != 'Darwin' && skip 'OS X should be available'
   run build/bin/circleci artifacts -- --
   [ ${status} -eq 0 ]
   [ "${output}" = '[]' ]
@@ -29,6 +30,7 @@ function setup() {
 }
 
 @test "build should succeed with shorthand project and build" {
+  test "$(uname -s)" != 'Darwin' && skip 'OS X should be available'
   run build/bin/circleci build -- -- --filter='.build_num'
   [ ${status} -eq 0 ]
   [ "${output}" -gt 1 ]
@@ -41,6 +43,7 @@ function setup() {
 }
 
 @test "builds should succeed with shorthand project" {
+  test "$(uname -s)" != 'Darwin' && skip 'OS X should be available'
   run build/bin/circleci builds -- --filter='.[] | .build_num'
   [ ${status} -eq 0 ]
   [ "${#lines[@]}" -gt 1 ]
@@ -59,6 +62,7 @@ function setup() {
 }
 
 @test "project should succeed with shorthand project" {
+  test "$(uname -s)" != 'Darwin' && skip 'OS X should be available'
   run build/bin/circleci project -- --filter='.username + "/" + .reponame'
   [ ${status} -eq 0 ]
   [ "${output}" = 'rockymadden/circleci-cli' ]
@@ -77,6 +81,7 @@ function setup() {
 }
 
 @test "await should succeed with shorthand project and build" {
+  test "$(uname -s)" != 'Darwin' && skip 'OS X should be available'
   run build/bin/circleci await -- -- --filter='.username + "/" + .reponame'
   [ ${status} -eq 0 ]
   [ "${output}" = 'rockymadden/circleci-cli' ]
