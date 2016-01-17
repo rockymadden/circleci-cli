@@ -69,7 +69,9 @@ Convenience Commands:
 > __PROTIPS:__
 * Project names are represented as combination of username and project name
 (e.g. rockymadden/circleci-cli).
-* Inside a GitHub-based git repo you can use the `--` shorthand in place of the actual project name.
+* `--` can be used as a shorthand in place of the project name, while inside a GitHub-based git
+repo.
+* `--` can be used as a shorthand in place of the most recent build.
 * Filters are simply [jq filters](https://stedolan.github.io/jq/manual/), you can provide any filter
 that it can handle.
 * All commands prompt for required arguments which were not provided via options or arguments. This
@@ -77,10 +79,22 @@ allows for both traditional usage and prompt-based usage.
 
 ## Examples and Recipes
 
-### Using project shorthand while inside a GitHub-based git repo:
+### Using project shorthand, while inside a GitHub-based git repo:
 ```bash
-$ circleci project --
 $ circleci builds --
+$ circleci project --
+$ circleci trigger -- master
+```
+
+### Using project and build shorthands, while inside a GitHub-based git repo:
+```bash
+$ circleci artifacts -- --
+$ circleci await -- --
+$ circleci browse -- --
+$ circleci build -- --
+$ circleci cancel -- --
+$ circleci notify -- --
+$ circleci retry -- --
 ```
 
 ### Creating project list for further processing (e.g. xargs back into circleci-cli):
