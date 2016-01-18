@@ -9,8 +9,8 @@
 A simple, yet extremely flexible command line interface for [CircleCI](https://circleci.com). Deep
 integration with [jq](https://github.com/stedolan/jq) allows for the ability to perform complex
 declarative/higher-order operations on responses, helping you perform complex piping/compositional
-operations with relative ease (see [integration tests](test/integration/circleci) for some simple
-examples).
+operations with relative ease (see the [integration tests](test/integration/circleci) for some
+simple examples).
 
 ## Installation
 ```bash
@@ -67,7 +67,7 @@ Convenience Commands:
 ```
 
 > __PROTIPS:__
-* Project names are represented as combination of username and project name
+* Project names are represented as a combination of username and project name
 (e.g. rockymadden/circleci-cli).
 * `--` can be used as a shorthand in place of the project, when inside a GitHub-based git repo.
 * Project shorthand is implicitly applied, when not provided and inside a GitHub-based git repo.
