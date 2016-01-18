@@ -4,19 +4,20 @@ bindir=
 etcdir=
 token=$(test -f "${etcdir}/circleci" && sed -n '1p' < "${etcdir}/circleci")
 
-# Option parsing:
+## Command parsing ################################################################################
 cmd="${1}" ; shift
-resolution=15
 
+## Argument and option utility functions ##########################################################
 function shorthand-build() {
   echo $("${bindir}/circleci" builds ${1} --filter='.[] | .build_num' | head -n 1)
 }
 
 function shorthand-project() {
-  local url=$(hub browse -u)
+  local url=$(hub browse -u 2> /dev/null)
   echo "$(echo "${url}" | cut -d '/' -f4)/$(echo "${url}" | cut -d '/' -f5)"
 }
 
+## Argument and option parsing ####################################################################
 while (( "$#" )); do
   case "${1}" in
     --branch=*) branch=${1/--branch=/''} ; shift ;;
@@ -76,7 +77,24 @@ while (( "$#" )); do
   esac
 done
 
-# Option prompting:
+## Implicit/default arguments and options #########################################################
+case "${cmd}" in
+  await|notify) test -z "${resolution}" && resolution=15 ;;
+esac
+
+case "${cmd}" in
+  artifacts|await|browse|build|builds|cancel|project|notify|retry|trigger)
+    test -z "${project}" && test -n "$(hub browse -u 2> /dev/null)" && project=$(shorthand-project)
+  ;;
+esac
+
+case "${cmd}" in
+  artifacts|await|browse|build|cancel|notify|retry)
+    test -z "${build}" && build=$(shorthand-build "${project}")
+  ;;
+esac
+
+## Argument and option prompting ##################################################################
 case "${cmd}" in
   artifacts|await|build|cancel|notify|retry)
     test -z "${project}" && read -e -p 'Enter project slug (e.g. rockymadden/circleci-cli): ' project
@@ -94,7 +112,7 @@ case "${cmd}" in
   ;;
 esac
 
-# Command functions:
+## Command functions ##############################################################################
 function artifacts() {
   local rsp ; rsp=$(\
     curl -f -s -H 'Accept: application/json' \
@@ -305,7 +323,7 @@ function version() {
   echo 'v0.3.0'
 }
 
-# Command routing:
+## Command routing ################################################################################
 case "${cmd}" in
   --help|-h) help ; exit 0 ;;
   --version|-v) version ; exit 0 ;;
