@@ -4,19 +4,20 @@ bindir=
 etcdir=
 token=$(test -f "${etcdir}/circleci" && sed -n '1p' < "${etcdir}/circleci")
 
-# Option parsing:
+## Command parsing ################################################################################
 cmd="${1}" ; shift
-resolution=15
 
+## Argument and option utility functions ##########################################################
 function shorthand-build() {
   echo $("${bindir}/circleci" builds ${1} --filter='.[] | .build_num' | head -n 1)
 }
 
 function shorthand-project() {
-  local url=$(hub browse -u)
+  local url=$(hub browse -u 2> /dev/null)
   echo "$(echo "${url}" | cut -d '/' -f4)/$(echo "${url}" | cut -d '/' -f5)"
 }
 
+## Argument and option parsing ####################################################################
 while (( "$#" )); do
   case "${1}" in
     --branch=*) branch=${1/--branch=/''} ; shift ;;
@@ -41,9 +42,10 @@ while (( "$#" )); do
       case "${cmd}" in
         artifacts|await|browse|build|cancel|notify|retry)
           test -n "${project}" && build=$(shorthand-build "${project}")
-          test -z "${project}" && project=$(shorthand-project)
         ;;
-        builds|project|trigger)
+      esac
+      case "${cmd}" in
+        artifacts|await|browse|build|builds|cancel|notify|project|retry|trigger)
           test -z "${project}" && project=$(shorthand-project)
         ;;
       esac
@@ -51,23 +53,17 @@ while (( "$#" )); do
     ;;
     *)
       case "${cmd}" in
-        artifacts|await|build|cancel|notify|retry)
+        artifacts|await|browse|build|cancel|notify|retry)
           test -n "${1}" && test -n "${project}" && build=${1}
-          test -n "${1}" && test -z "${project}" && project=${1}
         ;;
-        browse)
-          test -n "${1}" && test -n "${project}" && \
-            case "${1}" in
-              *[!0-9]*) branch=${1} ;;
-              *) build=${1} ;;
-            esac
-          test -n "${1}" && test -z "${project}" && project=${1}
-        ;;
-        builds|project)
-          test -n "${1}" && test -z "${project}" && project=${1}
-        ;;
+      esac
+      case "${cmd}" in
         trigger)
           test -n "${1}" && test -n "${project}" && branch=${1}
+        ;;
+      esac
+      case "${cmd}" in
+        artifacts|await|browse|build|builds|cancel|notify|project|retry|trigger)
           test -n "${1}" && test -z "${project}" && project=${1}
         ;;
       esac
@@ -76,34 +72,61 @@ while (( "$#" )); do
   esac
 done
 
-# Option prompting:
+## Implicit/default arguments and options #########################################################
 case "${cmd}" in
-  artifacts|await|build|cancel|notify|retry)
-    test -z "${project}" && read -e -p 'Enter project slug (e.g. rockymadden/circleci-cli): ' project
-    test -z "${build}" && read -e -p 'Enter build (e.g. 123): ' build
+  await|notify) test -z "${resolution}" && resolution=15 ;;
+esac
+case "${cmd}" in
+  artifacts|await|browse|build|builds|cancel|notify|project|retry|trigger)
+    test -z "${project}" && test -n "$(hub browse -u 2> /dev/null)" && project=$(shorthand-project)
   ;;
-  browse|builds|project)
-    test -z "${project}" && read -e -p 'Enter project slug (e.g. rockymadden/circleci-cli): ' project
-  ;;
-  init)
-    test -z "${token}" && read -e -p 'Enter token: ' token
-  ;;
-  trigger)
-    test -z "${project}" && read -e -p 'Enter project slug (e.g. rockymadden/circleci-cli): ' project
-    test -z "${branch}" && read -e -p 'Enter branch (e.g. master): ' branch
+esac
+case "${cmd}" in
+  artifacts|await|browse|build|cancel|notify|retry)
+    test -z "${build}" && build=$(shorthand-build "${project}")
   ;;
 esac
 
-# Command functions:
-function artifacts() {
-  local rsp ; rsp=$(\
-    curl -f -s -H 'Accept: application/json' \
-    "https://circleci.com/api/v1/project/${project}/${build}/artifacts?circle-token=${token}")
+## Argument and option prompting ##################################################################
+case "${cmd}" in
+  init) test -z "${token}" && read -e -p 'Enter token: ' token ;;
+esac
+case "${cmd}" in
+  artifacts|await|browse|build|builds|cancel|notify|project|retry|trigger)
+    test -z "${project}" && read -e -p 'Enter project slug (e.g. rockymadden/circleci-cli): ' project
+  ;;
+esac
+case "${cmd}" in
+  artifacts|await|browse|build|cancel|notify|retry)
+    test -z "${build}" && read -e -p 'Enter build (e.g. 123): ' build
+  ;;
+esac
+case "${cmd}" in
+  trigger) test -z "${branch}" && read -e -p 'Enter branch (e.g. master): ' branch ;;
+esac
+
+## Command utility functions ######################################################################
+function jqify() {
+  case "${1}" in
+    GET) local rsp ; rsp=$(curl -f -s -H 'Accept: application/json' "${2}") ;;
+    POST)
+      local rsp ; rsp=$(\
+        curl -f -s -X POST \
+          -H 'Accept: application/json' \
+          -H 'Content-Type: application/json' \
+          -d "${3}" "${2}")
+    ;;
+  esac
 
   case "$?" in
     0) echo ${rsp} | jq -r ${compact} ${monochrome} "${filter:=.}" ;;
     *) return 1 ;;
   esac
+}
+
+## Command functions ##############################################################################
+function artifacts() {
+  jqify GET "https://circleci.com/api/v1/project/${project}/${build}/artifacts?circle-token=${token}"
 }
 
 function await() {
@@ -130,44 +153,19 @@ function await() {
 }
 
 function browse() {
-  if [ -n "${branch}" ]; then
-    open "https://circleci.com/gh/${project}/tree/${branch}"
-  else
-    open "https://circleci.com/gh/${project}/${build}"
-  fi
+  open "https://circleci.com/gh/${project}/${build}"
 }
 
 function build() {
-  local rsp ; rsp=$(\
-    curl -f -s -H 'Accept: application/json' \
-    "https://circleci.com/api/v1/project/${project}/${build}?circle-token=${token}")
-
-  case "$?" in
-    0) echo ${rsp} | jq -r ${compact} ${monochrome} "${filter:=.}" ;;
-    *) return 1 ;;
-  esac
+  jqify GET "https://circleci.com/api/v1/project/${project}/${build}?circle-token=${token}"
 }
 
 function builds() {
-  local rsp ; rsp=$(\
-    curl -f -s -H 'Accept: application/json' \
-    "https://circleci.com/api/v1/project/${project}?circle-token=${token}")
-
-  case "$?" in
-    0) echo ${rsp} | jq -r ${compact} ${monochrome} "${filter:=.}" ;;
-    *) return 1 ;;
-  esac
+  jqify GET "https://circleci.com/api/v1/project/${project}?circle-token=${token}"
 }
 
 function cancel() {
-  local rsp ; rsp=$(\
-    curl -f -s -X POST -H 'Accept: application/json' \
-    "https://circleci.com/api/v1/project/${project}/${build}/cancel?circle-token=${token}")
-
-  case "$?" in
-    0) echo ${rsp} | jq -r ${compact} ${monochrome} "${filter:=.}" ;;
-    *) return 1 ;;
-  esac
+  jqify POST "https://circleci.com/api/v1/project/${project}/${build}/cancel?circle-token=${token}"
 }
 
 function help() {
@@ -178,7 +176,7 @@ function help() {
   echo "  ${bin} artifacts <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
   echo "  ${bin} await <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
   echo '    [--resolution|-r <seconds>]'
-  echo "  ${bin} browse <project> [build|branch]"
+  echo "  ${bin} browse <project> [build]"
   echo "  ${bin} build <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
   echo "  ${bin} builds <project> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
   echo "  ${bin} cancel <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
@@ -222,14 +220,7 @@ function init() {
 }
 
 function me() {
-  local rsp ; rsp=$(\
-    curl -f -s -H 'Accept: application/json' \
-    "https://circleci.com/api/v1/me?circle-token=${token}")
-
-  case "$?" in
-    0) echo ${rsp} | jq -r ${compact} ${monochrome} "${filter:=.}" ;;
-    *) return 1 ;;
-  esac
+  jqify GET "https://circleci.com/api/v1/me?circle-token=${token}"
 }
 
 function notify() {
@@ -266,46 +257,24 @@ function project() {
 }
 
 function projects() {
-  local rsp ; rsp=$(\
-    curl -f -s -H 'Accept: application/json' \
-    "https://circleci.com/api/v1/projects?circle-token=${token}")
-
-  case "$?" in
-    0) echo ${rsp} | jq -r ${compact} ${monochrome} "${filter:=.}" ;;
-    *) return 1 ;;
-  esac
+  jqify GET "https://circleci.com/api/v1/projects?circle-token=${token}"
 }
 
 function retry() {
-  local rsp ; rsp=$(\
-    curl -f -s -X POST -H 'Accept: application/json' \
-    "https://circleci.com/api/v1/project/${project}/${build}/retry?circle-token=${token}")
-
-  case "$?" in
-    0) echo ${rsp} | jq -r ${compact} ${monochrome} "${filter:=.}" ;;
-    *) return 1 ;;
-  esac
+  jqify POST "https://circleci.com/api/v1/project/${project}/${build}/retry?circle-token=${token}"
 }
 
 function trigger() {
-  local rsp ; rsp=$(\
-    curl -f -s -X POST \
-    -H 'Accept: application/json' \
-    -H 'Content-Type: application/json' \
-    -d '{"build_parameters": '"${parameters}"'}' \
-    "https://circleci.com/api/v1/project/${project}/tree/${branch}?circle-token=${token}")
-
-  case "$?" in
-    0) echo ${rsp} | jq -r ${compact} ${monochrome} "${filter:=.}" ;;
-    *) return 1 ;;
-  esac
+  jqify POST \
+    "https://circleci.com/api/v1/project/${project}/tree/${branch}?circle-token=${token}" \
+    '{"build_parameters": '"${parameters}"'}'
 }
 
 function version() {
   echo 'v0.3.0'
 }
 
-# Command routing:
+## Command routing ################################################################################
 case "${cmd}" in
   --help|-h) help ; exit 0 ;;
   --version|-v) version ; exit 0 ;;
