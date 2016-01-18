@@ -32,7 +32,7 @@ Usage:
   circleci artifacts <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
   circleci await <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
     [--resolution|-r <seconds>]
-  circleci browse <project> [build|branch]
+  circleci browse <project> [build]
   circleci build <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
   circleci builds <project> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
   circleci cancel <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]

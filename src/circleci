@@ -52,16 +52,8 @@ while (( "$#" )); do
     ;;
     *)
       case "${cmd}" in
-        artifacts|await|build|cancel|notify|retry)
+        artifacts|await|browse|build|cancel|notify|retry)
           test -n "${1}" && test -n "${project}" && build=${1}
-          test -n "${1}" && test -z "${project}" && project=${1}
-        ;;
-        browse)
-          test -n "${1}" && test -n "${project}" && \
-            case "${1}" in
-              *[!0-9]*) branch=${1} ;;
-              *) build=${1} ;;
-            esac
           test -n "${1}" && test -z "${project}" && project=${1}
         ;;
         builds|project)
@@ -96,11 +88,11 @@ esac
 
 ## Argument and option prompting ##################################################################
 case "${cmd}" in
-  artifacts|await|build|cancel|notify|retry)
+  artifacts|await|browse|build|cancel|notify|retry)
     test -z "${project}" && read -e -p 'Enter project slug (e.g. rockymadden/circleci-cli): ' project
     test -z "${build}" && read -e -p 'Enter build (e.g. 123): ' build
   ;;
-  browse|builds|project)
+  builds|project)
     test -z "${project}" && read -e -p 'Enter project slug (e.g. rockymadden/circleci-cli): ' project
   ;;
   init)
@@ -148,11 +140,7 @@ function await() {
 }
 
 function browse() {
-  if [ -n "${branch}" ]; then
-    open "https://circleci.com/gh/${project}/tree/${branch}"
-  else
-    open "https://circleci.com/gh/${project}/${build}"
-  fi
+  open "https://circleci.com/gh/${project}/${build}"
 }
 
 function build() {
@@ -196,7 +184,7 @@ function help() {
   echo "  ${bin} artifacts <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
   echo "  ${bin} await <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
   echo '    [--resolution|-r <seconds>]'
-  echo "  ${bin} browse <project> [build|branch]"
+  echo "  ${bin} browse <project> [build]"
   echo "  ${bin} build <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
   echo "  ${bin} builds <project> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
   echo "  ${bin} cancel <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
