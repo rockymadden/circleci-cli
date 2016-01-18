@@ -42,9 +42,10 @@ while (( "$#" )); do
       case "${cmd}" in
         artifacts|await|browse|build|cancel|notify|retry)
           test -n "${project}" && build=$(shorthand-build "${project}")
-          test -z "${project}" && project=$(shorthand-project)
         ;;
-        builds|project|trigger)
+      esac
+      case "${cmd}" in
+        artifacts|await|browse|build|builds|cancel|notify|project|retry|trigger)
           test -z "${project}" && project=$(shorthand-project)
         ;;
       esac
@@ -54,13 +55,15 @@ while (( "$#" )); do
       case "${cmd}" in
         artifacts|await|browse|build|cancel|notify|retry)
           test -n "${1}" && test -n "${project}" && build=${1}
-          test -n "${1}" && test -z "${project}" && project=${1}
         ;;
-        builds|project)
-          test -n "${1}" && test -z "${project}" && project=${1}
-        ;;
+      esac
+      case "${cmd}" in
         trigger)
           test -n "${1}" && test -n "${project}" && branch=${1}
+        ;;
+      esac
+      case "${cmd}" in
+        artifacts|await|browse|build|builds|cancel|notify|project|retry|trigger)
           test -n "${1}" && test -z "${project}" && project=${1}
         ;;
       esac
@@ -73,13 +76,11 @@ done
 case "${cmd}" in
   await|notify) test -z "${resolution}" && resolution=15 ;;
 esac
-
 case "${cmd}" in
-  artifacts|await|browse|build|builds|cancel|project|notify|retry|trigger)
+  artifacts|await|browse|build|builds|cancel|notify|project|retry|trigger)
     test -z "${project}" && test -n "$(hub browse -u 2> /dev/null)" && project=$(shorthand-project)
   ;;
 esac
-
 case "${cmd}" in
   artifacts|await|browse|build|cancel|notify|retry)
     test -z "${build}" && build=$(shorthand-build "${project}")
@@ -88,20 +89,20 @@ esac
 
 ## Argument and option prompting ##################################################################
 case "${cmd}" in
-  artifacts|await|browse|build|cancel|notify|retry)
+  init) test -z "${token}" && read -e -p 'Enter token: ' token ;;
+esac
+case "${cmd}" in
+  artifacts|await|browse|build|builds|cancel|notify|project|retry|trigger)
     test -z "${project}" && read -e -p 'Enter project slug (e.g. rockymadden/circleci-cli): ' project
+  ;;
+esac
+case "${cmd}" in
+  artifacts|await|browse|build|cancel|notify|retry)
     test -z "${build}" && read -e -p 'Enter build (e.g. 123): ' build
   ;;
-  builds|project)
-    test -z "${project}" && read -e -p 'Enter project slug (e.g. rockymadden/circleci-cli): ' project
-  ;;
-  init)
-    test -z "${token}" && read -e -p 'Enter token: ' token
-  ;;
-  trigger)
-    test -z "${project}" && read -e -p 'Enter project slug (e.g. rockymadden/circleci-cli): ' project
-    test -z "${branch}" && read -e -p 'Enter branch (e.g. master): ' branch
-  ;;
+esac
+case "${cmd}" in
+  trigger) test -z "${branch}" && read -e -p 'Enter branch (e.g. master): ' branch ;;
 esac
 
 ## Command utility functions ######################################################################
@@ -110,7 +111,9 @@ function jqify() {
     GET) local rsp ; rsp=$(curl -f -s -H 'Accept: application/json' "${2}") ;;
     POST)
       local rsp ; rsp=$(\
-        curl -f -s -X POST -H 'Accept: application/json' -H 'Content-Type: application/json' \
+        curl -f -s -X POST \
+          -H 'Accept: application/json' \
+          -H 'Content-Type: application/json' \
           -d "${3}" "${2}")
     ;;
   esac
