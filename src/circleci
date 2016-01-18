@@ -8,11 +8,11 @@ token=$(test -f "${etcdir}/circleci" && sed -n '1p' < "${etcdir}/circleci")
 cmd="${1}" ; shift
 
 ## Argument and option utility functions ##########################################################
-function shorthand-build() {
+function placehold-build() {
   echo $("${bindir}/circleci" builds ${1} --filter='.[] | .build_num' | head -n 1)
 }
 
-function shorthand-project() {
+function placehold-project() {
   local url=$(hub browse -u 2> /dev/null)
   echo "$(echo "${url}" | cut -d '/' -f4)/$(echo "${url}" | cut -d '/' -f5)"
 }
@@ -41,12 +41,12 @@ while (( "$#" )); do
     --)
       case "${cmd}" in
         artifacts|await|browse|build|cancel|notify|retry)
-          test -n "${project}" && build=$(shorthand-build "${project}")
+          test -n "${project}" && build=$(placehold-build "${project}")
         ;;
       esac
       case "${cmd}" in
         artifacts|await|browse|build|builds|cancel|notify|project|retry|trigger)
-          test -z "${project}" && project=$(shorthand-project)
+          test -z "${project}" && project=$(placehold-project)
         ;;
       esac
       shift
@@ -78,12 +78,12 @@ case "${cmd}" in
 esac
 case "${cmd}" in
   artifacts|await|browse|build|builds|cancel|notify|project|retry|trigger)
-    test -z "${project}" && test -n "$(hub browse -u 2> /dev/null)" && project=$(shorthand-project)
+    test -z "${project}" && test -n "$(hub browse -u 2> /dev/null)" && project=$(placehold-project)
   ;;
 esac
 case "${cmd}" in
   artifacts|await|browse|build|cancel|notify|retry)
-    test -z "${build}" && build=$(shorthand-build "${project}")
+    test -z "${build}" && build=$(placehold-build "${project}")
   ;;
 esac
 

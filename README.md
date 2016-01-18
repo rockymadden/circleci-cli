@@ -69,10 +69,10 @@ Convenience Commands:
 > __PROTIPS:__
 * Project names are represented as a combination of username and project name
 (e.g. rockymadden/circleci-cli).
-* `--` can be used as a shorthand in place of the project, when inside a GitHub-based git repo.
-* Project shorthand is implicitly applied, when not provided and inside a GitHub-based git repo.
-* `--` can be used as a shorthand in place of the most recent build.
-* Build shorthand is implicitly applied, when not provided.
+* `--` can be used as a placeholder for the project, when inside a GitHub-based git repo.
+* Project placeholder is implicitly applied, when not provided and inside a GitHub-based git repo.
+* `--` can be used as a placeholder for the most recent build.
+* Build placeholder is implicitly applied, when not provided.
 * Filters are simply [jq filters](https://stedolan.github.io/jq/manual/), you can provide any filter
 that it can handle.
 * All commands prompt for required arguments which were not provided via options or arguments. This
@@ -82,29 +82,29 @@ allows for both traditional usage and prompt-based usage.
 
 ### Using implicit project and/or build, when inside a GitHub-based git repo:
 ```bash
-$ circleci artifacts # Project and build are implicit
-$ circleci await -- # Project using shorthand and build is implicit
-$ circleci browse -- # Project using shorthand and build is implicit
-$ circleci build --filter='.build_num' # Project and build are implicit, while providing option
-$ circleci builds -c -m -f '.[] | .build_num' # Project and build are implicit, while providing options
-$ circleci cancel rockymadden/homebrew-rockymadden # Project is explicit and build is implicit
-$ circleci notify # Project and build are implicit
-$ circleci project --filter='.username + "/" + .reponame' # Project is implicit, while providing option
-$ circleci retry # Project and build are implicit
+$ circleci artifacts # Implicit project and build
+$ circleci await rockymadden/circleci-cli # Explicit project and implicit build
+$ circleci browse rockymadden/circleci-cli # Explicit project and implicit build
+$ circleci build --filter='.build_num' # Implicit project and build, while providing option
+$ circleci builds -c -m -f '.[] | .build_num' # Implicit project and build, while providing options
+$ circleci cancel rockymadden/homebrew-rockymadden # Explicit project and implicit build
+$ circleci notify # Implicit project and build
+$ circleci project --filter='.username + "/" + .reponame' # Implicit project, while providing option
+$ circleci retry # Implicit project and build
 ```
 
-### Using project and/or build shorthands, when inside a GitHub-based git repo:
+### Using project and/or build placeholders, when inside a GitHub-based git repo:
 ```bash
-$ circleci artifacts -- -- # Project and build using shorthand
-$ circleci await -- 1 # Project using shorthand and build is explicit
-$ circleci browse -- 2 # Project using shorthand and build is explicit
-$ circleci build rockymadden/circleci-cli -- # Project is explicit and build using shorthand
-$ circleci builds -- # Project using shorthand
-$ circleci cancel rockymadden/homebrew-rockymadden -- # Project is explicit and build using shorthand
-$ circleci notify -- -- # Project and build using shorthand
-$ circleci project -- # Project using shorthand
-$ circleci retry -- -- # Project and build using shorthand
-$ circleci trigger -- master # Project using shorthand and branch is explicit
+$ circleci artifacts -- -- # Placeheld project and build
+$ circleci await -- 1 # Placeheld project and explicit build
+$ circleci browse -- 2 # Placeheld project and explicit build
+$ circleci build rockymadden/circleci-cli -- # Explicit project and placeheld build
+$ circleci builds -- # Placeheld project
+$ circleci cancel rockymadden/homebrew-rockymadden -- # Explicit project and placeheld build
+$ circleci notify -- -- # Placeheld project and explicit build
+$ circleci project -- # Placeheld project and explicit build
+$ circleci retry -- -- #  Placeheld project and explicit build
+$ circleci trigger -- master # Placeheld project and explicit branch
 ```
 
 ### Creating project list for further processing (e.g. xargs back into circleci-cli):
