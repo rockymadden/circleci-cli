@@ -104,16 +104,26 @@ case "${cmd}" in
   ;;
 esac
 
-## Command functions ##############################################################################
-function artifacts() {
-  local rsp ; rsp=$(\
-    curl -f -s -H 'Accept: application/json' \
-    "https://circleci.com/api/v1/project/${project}/${build}/artifacts?circle-token=${token}")
+## Command utility functions ######################################################################
+function jqify() {
+  case "${1}" in
+    GET) local rsp ; rsp=$(curl -f -s -H 'Accept: application/json' "${2}") ;;
+    POST)
+      local rsp ; rsp=$(\
+        curl -f -s -X POST -H 'Accept: application/json' -H 'Content-Type: application/json' \
+          -d "${3}" "${2}")
+    ;;
+  esac
 
   case "$?" in
     0) echo ${rsp} | jq -r ${compact} ${monochrome} "${filter:=.}" ;;
     *) return 1 ;;
   esac
+}
+
+## Command functions ##############################################################################
+function artifacts() {
+  jqify GET "https://circleci.com/api/v1/project/${project}/${build}/artifacts?circle-token=${token}"
 }
 
 function await() {
@@ -144,36 +154,15 @@ function browse() {
 }
 
 function build() {
-  local rsp ; rsp=$(\
-    curl -f -s -H 'Accept: application/json' \
-    "https://circleci.com/api/v1/project/${project}/${build}?circle-token=${token}")
-
-  case "$?" in
-    0) echo ${rsp} | jq -r ${compact} ${monochrome} "${filter:=.}" ;;
-    *) return 1 ;;
-  esac
+  jqify GET "https://circleci.com/api/v1/project/${project}/${build}?circle-token=${token}"
 }
 
 function builds() {
-  local rsp ; rsp=$(\
-    curl -f -s -H 'Accept: application/json' \
-    "https://circleci.com/api/v1/project/${project}?circle-token=${token}")
-
-  case "$?" in
-    0) echo ${rsp} | jq -r ${compact} ${monochrome} "${filter:=.}" ;;
-    *) return 1 ;;
-  esac
+  jqify GET "https://circleci.com/api/v1/project/${project}?circle-token=${token}"
 }
 
 function cancel() {
-  local rsp ; rsp=$(\
-    curl -f -s -X POST -H 'Accept: application/json' \
-    "https://circleci.com/api/v1/project/${project}/${build}/cancel?circle-token=${token}")
-
-  case "$?" in
-    0) echo ${rsp} | jq -r ${compact} ${monochrome} "${filter:=.}" ;;
-    *) return 1 ;;
-  esac
+  jqify POST "https://circleci.com/api/v1/project/${project}/${build}/cancel?circle-token=${token}"
 }
 
 function help() {
@@ -228,14 +217,7 @@ function init() {
 }
 
 function me() {
-  local rsp ; rsp=$(\
-    curl -f -s -H 'Accept: application/json' \
-    "https://circleci.com/api/v1/me?circle-token=${token}")
-
-  case "$?" in
-    0) echo ${rsp} | jq -r ${compact} ${monochrome} "${filter:=.}" ;;
-    *) return 1 ;;
-  esac
+  jqify GET "https://circleci.com/api/v1/me?circle-token=${token}"
 }
 
 function notify() {
@@ -272,39 +254,17 @@ function project() {
 }
 
 function projects() {
-  local rsp ; rsp=$(\
-    curl -f -s -H 'Accept: application/json' \
-    "https://circleci.com/api/v1/projects?circle-token=${token}")
-
-  case "$?" in
-    0) echo ${rsp} | jq -r ${compact} ${monochrome} "${filter:=.}" ;;
-    *) return 1 ;;
-  esac
+  jqify GET "https://circleci.com/api/v1/projects?circle-token=${token}"
 }
 
 function retry() {
-  local rsp ; rsp=$(\
-    curl -f -s -X POST -H 'Accept: application/json' \
-    "https://circleci.com/api/v1/project/${project}/${build}/retry?circle-token=${token}")
-
-  case "$?" in
-    0) echo ${rsp} | jq -r ${compact} ${monochrome} "${filter:=.}" ;;
-    *) return 1 ;;
-  esac
+  jqify POST "https://circleci.com/api/v1/project/${project}/${build}/retry?circle-token=${token}"
 }
 
 function trigger() {
-  local rsp ; rsp=$(\
-    curl -f -s -X POST \
-    -H 'Accept: application/json' \
-    -H 'Content-Type: application/json' \
-    -d '{"build_parameters": '"${parameters}"'}' \
-    "https://circleci.com/api/v1/project/${project}/tree/${branch}?circle-token=${token}")
-
-  case "$?" in
-    0) echo ${rsp} | jq -r ${compact} ${monochrome} "${filter:=.}" ;;
-    *) return 1 ;;
-  esac
+  jqify POST \
+    "https://circleci.com/api/v1/project/${project}/tree/${branch}?circle-token=${token}" \
+    '{"build_parameters": '"${parameters}"'}'
 }
 
 function version() {
