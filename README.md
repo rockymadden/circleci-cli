@@ -9,8 +9,8 @@
 A simple, yet extremely flexible command line interface for [CircleCI](https://circleci.com). Deep
 integration with [jq](https://github.com/stedolan/jq) allows for the ability to perform complex
 declarative/higher-order operations on responses, helping you perform complex piping/compositional
-operations with relative ease (see [integration tests](test/integration/circleci) for some simple
-examples).
+operations with relative ease (see the [integration tests](test/integration/circleci) for some
+simple examples).
 
 ## Installation
 ```bash
@@ -67,7 +67,7 @@ Convenience Commands:
 ```
 
 > __PROTIPS:__
-* Project names are represented as combination of username and project name
+* Project names are represented as a combination of username and project name
 (e.g. rockymadden/circleci-cli).
 * `--` can be used as a shorthand in place of the project, when inside a GitHub-based git repo.
 * Project shorthand is implicitly applied, when not provided and inside a GitHub-based git repo.
@@ -80,39 +80,31 @@ allows for both traditional usage and prompt-based usage.
 
 ## Examples and Recipes
 
-### Using implicit project shorthand, when inside a GitHub-based git repo:
+### Using implicit project and/or build, when inside a GitHub-based git repo:
 ```bash
-$ circleci builds
-$ circleci project
+$ circleci artifacts # Project and build are implicit
+$ circleci await -- # Project using shorthand and build is implicit
+$ circleci browse -- # Project using shorthand and build is implicit
+$ circleci build --filter='.build_num' # Project and build are implicit, while providing option
+$ circleci builds -c -m -f '.[] | .build_num' # Project and build are implicit, while providing options
+$ circleci cancel rockymadden/homebrew-rockymadden # Project is explicit and build is implicit
+$ circleci notify # Project and build are implicit
+$ circleci project --filter='.username + "/" + .reponame' # Project is implicit, while providing option
+$ circleci retry # Project and build are implicit
 ```
 
-### Using project shorthand, when inside a GitHub-based git repo:
+### Using project and/or build shorthands, when inside a GitHub-based git repo:
 ```bash
-$ circleci builds --
-$ circleci project --
-$ circleci trigger -- master
-```
-
-### Using implicit project and build shorthands, when inside a GitHub-based git repo:
-```bash
-$ circleci artifacts
-$ circleci await
-$ circleci browse
-$ circleci build
-$ circleci cancel
-$ circleci notify
-$ circleci retry
-```
-
-### Using project and build shorthands, when inside a GitHub-based git repo:
-```bash
-$ circleci artifacts -- --
-$ circleci await -- --
-$ circleci browse -- --
-$ circleci build -- --
-$ circleci cancel -- --
-$ circleci notify -- --
-$ circleci retry -- --
+$ circleci artifacts -- -- # Project and build using shorthand
+$ circleci await -- 1 # Project using shorthand and build is explicit
+$ circleci browse -- 2 # Project using shorthand and build is explicit
+$ circleci build rockymadden/circleci-cli -- # Project is explicit and build using shorthand
+$ circleci builds -- # Project using shorthand
+$ circleci cancel rockymadden/homebrew-rockymadden -- # Project is explicit and build using shorthand
+$ circleci notify -- -- # Project and build using shorthand
+$ circleci project -- # Project using shorthand
+$ circleci retry -- -- # Project and build using shorthand
+$ circleci trigger -- master # Project using shorthand and branch is explicit
 ```
 
 ### Creating project list for further processing (e.g. xargs back into circleci-cli):
