@@ -89,7 +89,7 @@ $ circleci build --filter='.build_num' # Project and build are implicit, while p
 $ circleci builds -c -m -f '.[] | .build_num' # Project and build are implicit, while providing options
 $ circleci cancel rockymadden/homebrew-rockymadden # Project is explicit and build is implicit
 $ circleci notify # Project and build are implicit
-$ circleci project --filter='.username + "/" + .reponame' # Project is implicit
+$ circleci project --filter='.username + "/" + .reponame' # Project is implicit, while providing option
 $ circleci retry # Project and build are implicit
 ```
 
