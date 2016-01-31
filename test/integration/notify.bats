@@ -8,14 +8,6 @@ function setup() {
   fi
 }
 
-@test 'notify should succeed' {
+@test 'notify should exit 0 and create notification' {
   build/bin/circleci notify rockymadden/circleci-cli 1
-}
-
-@test 'notify should succeed with shorthand project and build' {
-  build/bin/circleci notify -- --
-}
-
-@test 'notify should succeed with implicit project and build' {
-  build/bin/circleci notify
 }

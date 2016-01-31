@@ -5,10 +5,8 @@ uname := $(shell uname -s)
 apt:
 ifeq (${uname}, Linux)
 	@add-apt-repository ppa:duggan/bats -y
-	@add-apt-repository ppa:cpick/hub -y
 	@apt-get update
 	@apt-get install bats
-	@apt-get install hub
 	@apt-get install jq
 endif
 
