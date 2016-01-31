@@ -13,6 +13,7 @@ endif
 brew:
 ifeq (${uname}, Darwin)
 	@brew install bats
+	@brew install hub
 	@brew install jq
 	@brew install terminal-notifier
 endif
@@ -42,10 +43,10 @@ stub:
 test: | test-unit test-integration
 
 test-integration: | install
-	@bats test/integration/circleci
+	@bats test/integration
 
 test-unit: | install
-	@bats test/unit/circleci
+	@bats test/unit
 
 uninstall:
 	@rm -rf ${bindir}
