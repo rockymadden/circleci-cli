@@ -5,14 +5,17 @@ uname := $(shell uname -s)
 apt:
 ifeq (${uname}, Linux)
 	@add-apt-repository ppa:duggan/bats -y
+	@add-apt-repository ppa:cpick/hub -y
 	@apt-get update
 	@apt-get install bats
+	@apt-get install hub
 	@apt-get install jq
 endif
 
 brew:
 ifeq (${uname}, Darwin)
 	@brew install bats
+	@brew install hub
 	@brew install jq
 	@brew install terminal-notifier
 endif
@@ -42,7 +45,7 @@ stub:
 test: | test-unit test-integration
 
 test-integration: | install
-	@bats test/integration/circleci
+	@bats test/integration
 
 test-unit: | install
 	@bats test/unit
