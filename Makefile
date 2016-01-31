@@ -45,7 +45,7 @@ test-integration: | install
 	@bats test/integration/circleci
 
 test-unit: | install
-	@bats test/unit/circleci
+	@bats test/unit
 
 uninstall:
 	@rm -rf ${bindir}
