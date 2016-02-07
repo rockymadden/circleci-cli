@@ -2,7 +2,7 @@
 
 load suite
 
-@test 'trigger should exit 0 and output filtered vcs revision' {
+@test 'trigger with revision should exit 0 and output filtered vcs revision' {
   run build/bin/circleci trigger rockymadden/circleci-cli master \
     --revision=634f9656ccf6e0cad7385782e776569bddbf84d6 \
     --filter='.vcs_revision'
@@ -10,7 +10,7 @@ load suite
   [ "${output}" = '634f9656ccf6e0cad7385782e776569bddbf84d6' ]
 }
 
-@test 'trigger should exit 0 and output filtered build parameter' {
+@test 'trigger with build parameters should exit 0 and output filtered build parameter' {
   run build/bin/circleci trigger rockymadden/circleci-cli master \
     --revision=634f9656ccf6e0cad7385782e776569bddbf84d6 \
     --parameter-key=key1 --parameter-value=val1 \
