@@ -184,6 +184,13 @@ $ circleci cancel rockymadden/circleci-cli 1
 $ circleci cancel --filter='.status'
 ```
 
+### `me`:
+
+```bash
+# With filter:
+$ circleci me --filter='.login'
+```
+
 ### `notify`:
 
 ```bash
