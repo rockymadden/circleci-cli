@@ -1,5 +1,5 @@
 # circleci-cli <sub><sup>| Powerful CircleCI CLI via pure bash</sup></sub>
-[![version](http://img.shields.io/badge/version-v0.5.0-blue.svg)](https://github.com/rockymadden/circleci-cli/releases)
+[![version](http://img.shields.io/badge/version-v0.5.1-blue.svg)](https://github.com/rockymadden/circleci-cli/releases)
 [![versioning](http://img.shields.io/badge/versioning-semver-blue.svg)](http://semver.org/)
 [![branching](http://img.shields.io/badge/branching-github%20flow-f14e32.svg)](https://guides.github.com/introduction/flow/)
 [![license](http://img.shields.io/badge/license-mit-3da639.svg)](https://opensource.org/licenses/MIT)
