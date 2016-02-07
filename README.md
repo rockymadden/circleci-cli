@@ -44,7 +44,7 @@ Usage:
   circleci trigger <project> <branch> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
     [--parameter-key|-K <key>] [--parameter-value|-V <value>] [--revision|-R <revision>]
 
-Setup Commands:
+Configuration Commands:
   init    Initialize
 
 Core Commands:
