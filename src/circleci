@@ -76,7 +76,7 @@ done
 
 ## Implicit/default arguments and options #########################################################
 case "${cmd}" in
-  await|notify) test -z "${resolution}" && resolution=15 ;;
+  await|notify) test -z "${resolution}" && resolution=10 ;;
 esac
 case "${cmd}" in
   artifacts|await|browse|build|builds|cancel|notify|project|retry|trigger)
