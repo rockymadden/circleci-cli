@@ -3,8 +3,9 @@
 [![versioning](http://img.shields.io/badge/versioning-semver-blue.svg)](http://semver.org/)
 [![branching](http://img.shields.io/badge/branching-github%20flow-blue.svg)](https://guides.github.com/introduction/flow/)
 [![license](http://img.shields.io/badge/license-mit-blue.svg)](https://opensource.org/licenses/MIT)
+[![zenhub](http://img.shields.io/badge/zenhub-compatible-3f4d9c.svg)](https://www.zenhub.io/)
 [![slack](http://img.shields.io/badge/slack-join-e01563.svg)](https://rockymadden-slack.herokuapp.com/)
-[![circleci](https://circleci.com/gh/rockymadden/circleci-cli.svg?style=shield)](https://circleci.com/gh/rockymadden/circleci-cli)
+[![circleci](http://img.shields.io/badge/circleci-passing-brightgreen.svg)](https://circleci.com/gh/rockymadden/circleci-cli)
 
 A simple, yet extremely flexible command line interface for [CircleCI](https://circleci.com). Deep
 integration with [jq](https://github.com/stedolan/jq) allows for the ability to perform complex
