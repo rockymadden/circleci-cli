@@ -43,7 +43,7 @@ Usage:
   circleci projects [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
   circleci retry <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
   circleci trigger <project> <branch> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
-    [--parameters|-P <parameters>]
+    [--parameter-key|-K <key>] [--parameter-value|-V <value>] [--revision|-R <revision>]
 
 Setup Commands:
   init    Initialize
