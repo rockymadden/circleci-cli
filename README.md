@@ -1,5 +1,7 @@
-# circleci-cli <sub><sup>| CircleCI CLI via pure bash</sup></sub>
+# circleci-cli <sub><sup>| Powerful CircleCI CLI via pure bash</sup></sub>
 [![version](http://img.shields.io/badge/version-v0.5.0-blue.svg)](https://github.com/rockymadden/circleci-cli/releases)
+[![versioning](http://img.shields.io/badge/versioning-semver-blue.svg)](http://semver.org/)
+[![branching](http://img.shields.io/badge/branching-github%20flow-f14e32.svg)](https://guides.github.com/introduction/flow/)
 [![license](http://img.shields.io/badge/license-mit-3da639.svg)](https://opensource.org/licenses/MIT)
 [![pm](http://img.shields.io/badge/pm-zenhub-3f4d9c.svg)](https://www.zenhub.io/)
 [![chat](http://img.shields.io/badge/chat-slack-e01563.svg)](https://rockymadden-slack.herokuapp.com/)
@@ -84,10 +86,13 @@ allows for both traditional usage and prompt-based usage.
 ```bash
 # Implicit project and build:
 $ circleci artifacts
+
 # Placeheld project and build:
 $ circleci artifacts -- --
+
 # Placeheld project and explicit build:
 $ circleci artifacts -- 1
+
 # Explicit project and build:
 $ circleci artifacts rockymadden/circleci-cli 1
 ```
@@ -97,13 +102,17 @@ $ circleci artifacts rockymadden/circleci-cli 1
 ```bash
 # Implicit project and build:
 $ circleci await
+
 # Placeheld project and build:
 $ circleci await -- --
+
 # Placeheld project and explicit build:
 $ circleci await -- 1
+
 # Explicit project and build:
 $ circleci await rockymadden/circleci-cli 1
-# Custom filter:
+
+# With filter:
 $ circleci await --filter='.build_num'
 ```
 
@@ -112,10 +121,13 @@ $ circleci await --filter='.build_num'
 ```bash
 # Implicit project and build:
 $ circleci browse
+
 # Placeheld project and build:
 $ circleci browse -- --
+
 # Placeheld project and explicit build:
 $ circleci browse -- 1
+
 # Explicit project and build:
 $ circleci browse rockymadden/circleci-cli 1
 ```
@@ -125,13 +137,17 @@ $ circleci browse rockymadden/circleci-cli 1
 ```bash
 # Implicit project and build:
 $ circleci build
+
 # Placeheld project and build:
 $ circleci build -- --
+
 # Placeheld project and explicit build:
 $ circleci build -- 1
+
 # Explicit project and build:
 $ circleci build rockymadden/circleci-cli 1
-# Custom filter:
+
+# With filter:
 $ circleci build --filter='.build_num'
 ```
 
@@ -140,11 +156,14 @@ $ circleci build --filter='.build_num'
 ```bash
 # Implicit project:
 $ circleci builds
+
 # Placeheld project:
-$ circleci build --
+$ circleci builds --
+
 # Explicit project:
-$ circleci build rockymadden/circleci-cli
-# Custom filter:
+$ circleci builds rockymadden/circleci-cli
+
+# With filter:
 $ circleci builds --filter='.[] | .build_num'
 ```
 
@@ -153,12 +172,25 @@ $ circleci builds --filter='.[] | .build_num'
 ```bash
 # Implicit project and build:
 $ circleci cancel
+
 # Placeheld project and build:
 $ circleci cancel -- --
+
 # Placeheld project and explicit build:
 $ circleci cancel -- 1
+
 # Explicit project and build:
 $ circleci cancel rockymadden/circleci-cli 1
+
+# With filter:
+$ circleci cancel --filter='.status'
+```
+
+### `me`:
+
+```bash
+# With filter:
+$ circleci me --filter='.login'
 ```
 
 ### `notify`:
@@ -166,10 +198,13 @@ $ circleci cancel rockymadden/circleci-cli 1
 ```bash
 # Implicit project and build:
 $ circleci notify
+
 # Placeheld project and build:
 $ circleci notify -- --
+
 # Placeheld project and explicit build:
 $ circleci notify -- 1
+
 # Explicit project and build:
 $ circleci notify rockymadden/circleci-cli 1
 ```
@@ -179,16 +214,21 @@ $ circleci notify rockymadden/circleci-cli 1
 ```bash
 # Implicit project:
 $ circleci project
+
 # Placeheld project:
 $ circleci project --
+
 # Explicit project:
 $ circleci project rockymadden/circleci-cli
+
+# With filter:
+$ circleci project --filter='.username + "/" + .reponame'
 ```
 
 ### `projects`:
 
 ```bash
-# Custom filter:
+# With filter:
 $ circleci projects --filter='.[] | .username + "/" + .reponame'
 ```
 
@@ -197,12 +237,18 @@ $ circleci projects --filter='.[] | .username + "/" + .reponame'
 ```bash
 # Implicit project and build:
 $ circleci retry
+
 # Placeheld project and build:
 $ circleci retry -- --
+
 # Placeheld project and explicit build:
 $ circleci retry -- 1
+
 # Explicit project and build:
 $ circleci retry rockymadden/circleci-cli 1
+
+# With filter:
+$ circleci retry --filter='.status'
 ```
 
 ### `trigger`:
@@ -210,10 +256,15 @@ $ circleci retry rockymadden/circleci-cli 1
 ```bash
 # Implicit project and explicit branch:
 $ circleci trigger -- master
-# Custom build parameters:
+
+# With build parameters:
 $ circleci trigger -- master --parameter-key=key1 --parameter-value=val1 --parameter-key=key2 --parameter-value=val2
-# Custom revision:
+
+# With revision:
 $ circleci trigger -- master --revision=634f9656ccf6e0cad7385782e776569bddbf84d6
+
+# With filter:
+$ circleci trigger -- master --filter='.vcs_revision'
 ```
 
 ## License

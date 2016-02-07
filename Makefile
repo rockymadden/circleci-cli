@@ -1,26 +1,9 @@
+.DEFAULT_GOAL := stub
 bindir ?= ./build/bin
 etcdir ?= ./build/etc
 uname := $(shell uname -s)
 
-apt:
-ifeq (${uname}, Linux)
-	@add-apt-repository ppa:duggan/bats -y
-	@apt-get update
-	@apt-get install bats
-	@apt-get install jq
-endif
-
-brew:
-ifeq (${uname}, Darwin)
-	@brew install bats
-	@brew install hub
-	@brew install jq
-	@brew install terminal-notifier
-endif
-
 clean: | uninstall
-
-dependencies: | apt brew
 
 install: | stub
 	@rsync -a src/ ${bindir}/
@@ -52,4 +35,4 @@ uninstall:
 	@rm -rf ${bindir}
 	@rm -rf ${etcdir}
 
-.PHONY: apt brew clean dependencies install stub test test-integration test-unit uninstall
+.PHONY: clean install stub test test-integration test-unit uninstall
