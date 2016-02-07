@@ -25,7 +25,8 @@ while (( "$#" )); do
     --compact) compact='-c' ; shift ;;
     --filter=*) filter=${1/--filter=/''} ; shift ;;
     --monochrome) monochrome='-M' ; shift ;;
-    --parameters=*) parameters=${1/--parameters=/''} ; shift ;;
+    --parameter-key=*) paramkeys+=(${1/--parameter-key=/}) ; shift ;;
+    --parameter-value=*) paramvals+=(${1/--parameter-value=/}) ; shift ;;
     --project=*) project=${1/--project=/''} ; shift ;;
     --resolution=*) resolution=${1/--resolution=/''} ; shift ;;
     --token=*) token=${1/--token=/''} ; shift ;;
@@ -33,11 +34,12 @@ while (( "$#" )); do
     -b*) build=${2} ; shift ; shift ;;
     -c) compact='-c' ; shift ;;
     -f*) filter=${2} ; shift ; shift ;;
+    -K*) paramkeys+=(${2}) ;;
     -m) monochrome='-M' ; shift ;;
-    -P*) parameters=${2} ; shift ; shift ;;
     -p*) project=${2} ; shift ; shift ;;
     -r*) resolution=${2} ; shift ; shift ;;
     -t*) token=${2} ; shift ; shift ;;
+    -V*) paramvals+=(${2}) ;;
     --)
       case "${cmd}" in
         artifacts|await|browse|build|cancel|notify|retry)
@@ -187,7 +189,7 @@ function help() {
   echo "  ${bin} projects [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
   echo "  ${bin} retry <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
   echo "  ${bin} trigger <project> <branch> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
-  echo '    [--parameters|-P <parameters>]'
+  echo '    [--parameter-key|-K <parameter key>] [--parameter-value|-V <parameter value>]'
   echo
   echo 'Setup Commands:'
   echo '  init    Initialize'
@@ -265,9 +267,14 @@ function retry() {
 }
 
 function trigger() {
+  local params=''
+  for i in "${!paramkeys[@]}"; do
+    params+="\"${paramkeys[$i]}\":\"${paramvals[$i]}\","
+  done
+
   jqify POST \
     "https://circleci.com/api/v1/project/${project}/tree/${branch}?circle-token=${token}" \
-    '{"build_parameters": '"${parameters}"'}'
+    '{"build_parameters": {'"${params:0:${#params}-1}"'}}'
 }
 
 function version() {
