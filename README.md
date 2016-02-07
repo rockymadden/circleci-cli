@@ -1,17 +1,15 @@
 # circleci-cli <sub><sup>| CircleCI CLI via pure bash</sup></sub>
 [![version](http://img.shields.io/badge/version-v0.4.0-blue.svg)](https://github.com/rockymadden/circleci-cli/releases)
-[![versioning](http://img.shields.io/badge/versioning-semver-blue.svg)](http://semver.org/)
-[![branching](http://img.shields.io/badge/branching-github%20flow-blue.svg)](https://guides.github.com/introduction/flow/)
-[![license](http://img.shields.io/badge/license-mit-blue.svg)](https://opensource.org/licenses/MIT)
-[![zenhub](http://img.shields.io/badge/zenhub-compatible-3f4d9c.svg)](https://www.zenhub.io/)
-[![slack](http://img.shields.io/badge/slack-join-e01563.svg)](https://rockymadden-slack.herokuapp.com/)
+[![license](http://img.shields.io/badge/license-mit-3da639.svg)](https://opensource.org/licenses/MIT)
+[![pm](http://img.shields.io/badge/pm-zenhub-3f4d9c.svg)](https://www.zenhub.io/)
+[![chat](http://img.shields.io/badge/chat-slack-e01563.svg)](https://rockymadden-slack.herokuapp.com/)
 [![circleci](http://img.shields.io/badge/circleci-passing-brightgreen.svg)](https://circleci.com/gh/rockymadden/circleci-cli)
 
 A simple, yet extremely flexible command line interface for [CircleCI](https://circleci.com). Deep
 integration with [jq](https://github.com/stedolan/jq) allows for the ability to perform complex
 declarative/higher-order operations on responses, helping you perform complex piping/compositional
-operations with relative ease (see the [integration tests](test/integration/circleci) for some
-simple examples).
+operations with relative ease (see the [integration tests](test/integration) for some simple
+examples).
 
 ## Installation
 ```bash
@@ -46,7 +44,7 @@ Usage:
   circleci trigger <project> <branch> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
     [--parameter-key|-K <key>] [--parameter-value|-V <value>] [--revision|-R <revision>]
 
-Setup Commands:
+Configuration Commands:
   init    Initialize
 
 Core Commands:
@@ -88,6 +86,8 @@ allows for both traditional usage and prompt-based usage.
 $ circleci artifacts
 # Placeheld project and build:
 $ circleci artifacts -- --
+# Placeheld project and explicit build:
+$ circleci artifacts -- 1
 # Explicit project and build:
 $ circleci artifacts rockymadden/circleci-cli 1
 ```
@@ -99,6 +99,8 @@ $ circleci artifacts rockymadden/circleci-cli 1
 $ circleci await
 # Placeheld project and build:
 $ circleci await -- --
+# Placeheld project and explicit build:
+$ circleci await -- 1
 # Explicit project and build:
 $ circleci await rockymadden/circleci-cli 1
 # Custom filter:
@@ -112,6 +114,8 @@ $ circleci await --filter='.build_num'
 $ circleci browse
 # Placeheld project and build:
 $ circleci browse -- --
+# Placeheld project and explicit build:
+$ circleci browse -- 1
 # Explicit project and build:
 $ circleci browse rockymadden/circleci-cli 1
 ```
@@ -123,6 +127,8 @@ $ circleci browse rockymadden/circleci-cli 1
 $ circleci build
 # Placeheld project and build:
 $ circleci build -- --
+# Placeheld project and explicit build:
+$ circleci build -- 1
 # Explicit project and build:
 $ circleci build rockymadden/circleci-cli 1
 # Custom filter:
@@ -149,6 +155,8 @@ $ circleci builds --filter='.[] | .build_num'
 $ circleci cancel
 # Placeheld project and build:
 $ circleci cancel -- --
+# Placeheld project and explicit build:
+$ circleci cancel -- 1
 # Explicit project and build:
 $ circleci cancel rockymadden/circleci-cli 1
 ```
@@ -160,6 +168,8 @@ $ circleci cancel rockymadden/circleci-cli 1
 $ circleci notify
 # Placeheld project and build:
 $ circleci notify -- --
+# Placeheld project and explicit build:
+$ circleci notify -- 1
 # Explicit project and build:
 $ circleci notify rockymadden/circleci-cli 1
 ```
@@ -189,6 +199,8 @@ $ circleci projects --filter='.[] | .username + "/" + .reponame'
 $ circleci retry
 # Placeheld project and build:
 $ circleci retry -- --
+# Placeheld project and explicit build:
+$ circleci retry -- 1
 # Explicit project and build:
 $ circleci retry rockymadden/circleci-cli 1
 ```
