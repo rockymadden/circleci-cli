@@ -1,4 +1,4 @@
-# circleci-cli <sub><sup>| CircleCI CLI via pure bash</sup></sub>
+# circleci-cli <sub><sup>| Powerful CircleCI CLI via pure bash</sup></sub>
 [![version](http://img.shields.io/badge/version-v0.5.0-blue.svg)](https://github.com/rockymadden/circleci-cli/releases)
 [![license](http://img.shields.io/badge/license-mit-3da639.svg)](https://opensource.org/licenses/MIT)
 [![pm](http://img.shields.io/badge/pm-zenhub-3f4d9c.svg)](https://www.zenhub.io/)
