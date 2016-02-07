@@ -8,8 +8,8 @@
 A simple, yet extremely flexible command line interface for [CircleCI](https://circleci.com). Deep
 integration with [jq](https://github.com/stedolan/jq) allows for the ability to perform complex
 declarative/higher-order operations on responses, helping you perform complex piping/compositional
-operations with relative ease (see the [integration tests](test/integration/circleci) for some
-simple examples).
+operations with relative ease (see the [integration tests](test/integration) for some simple
+examples).
 
 ## Installation
 ```bash
