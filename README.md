@@ -141,9 +141,9 @@ $ circleci build --filter='.build_num'
 # Implicit project:
 $ circleci builds
 # Placeheld project:
-$ circleci build --
+$ circleci builds --
 # Explicit project:
-$ circleci build rockymadden/circleci-cli
+$ circleci builds rockymadden/circleci-cli
 # Custom filter:
 $ circleci builds --filter='.[] | .build_num'
 ```
