@@ -86,6 +86,8 @@ allows for both traditional usage and prompt-based usage.
 $ circleci artifacts
 # Placeheld project and build:
 $ circleci artifacts -- --
+# Placeheld project and explicit build:
+$ circleci artifacts -- 1
 # Explicit project and build:
 $ circleci artifacts rockymadden/circleci-cli 1
 ```
@@ -97,6 +99,8 @@ $ circleci artifacts rockymadden/circleci-cli 1
 $ circleci await
 # Placeheld project and build:
 $ circleci await -- --
+# Placeheld project and explicit build:
+$ circleci await -- 1
 # Explicit project and build:
 $ circleci await rockymadden/circleci-cli 1
 # Custom filter:
@@ -110,6 +114,8 @@ $ circleci await --filter='.build_num'
 $ circleci browse
 # Placeheld project and build:
 $ circleci browse -- --
+# Placeheld project and explicit build:
+$ circleci browse -- 1
 # Explicit project and build:
 $ circleci browse rockymadden/circleci-cli 1
 ```
@@ -121,6 +127,8 @@ $ circleci browse rockymadden/circleci-cli 1
 $ circleci build
 # Placeheld project and build:
 $ circleci build -- --
+# Placeheld project and explicit build:
+$ circleci build -- 1
 # Explicit project and build:
 $ circleci build rockymadden/circleci-cli 1
 # Custom filter:
@@ -147,6 +155,8 @@ $ circleci builds --filter='.[] | .build_num'
 $ circleci cancel
 # Placeheld project and build:
 $ circleci cancel -- --
+# Placeheld project and explicit build:
+$ circleci cancel -- 1
 # Explicit project and build:
 $ circleci cancel rockymadden/circleci-cli 1
 ```
@@ -158,6 +168,8 @@ $ circleci cancel rockymadden/circleci-cli 1
 $ circleci notify
 # Placeheld project and build:
 $ circleci notify -- --
+# Placeheld project and explicit build:
+$ circleci notify -- 1
 # Explicit project and build:
 $ circleci notify rockymadden/circleci-cli 1
 ```
@@ -187,6 +199,8 @@ $ circleci projects --filter='.[] | .username + "/" + .reponame'
 $ circleci retry
 # Placeheld project and build:
 $ circleci retry -- --
+# Placeheld project and explicit build:
+$ circleci retry -- 1
 # Explicit project and build:
 $ circleci retry rockymadden/circleci-cli 1
 ```
