@@ -110,7 +110,7 @@ $ circleci await -- 1
 # Explicit project and build:
 $ circleci await rockymadden/circleci-cli 1
 
-# Custom filter:
+# With filter:
 $ circleci await --filter='.build_num'
 ```
 
@@ -145,7 +145,7 @@ $ circleci build -- 1
 # Explicit project and build:
 $ circleci build rockymadden/circleci-cli 1
 
-# Custom filter:
+# With filter:
 $ circleci build --filter='.build_num'
 ```
 
@@ -161,7 +161,7 @@ $ circleci builds --
 # Explicit project:
 $ circleci builds rockymadden/circleci-cli
 
-# Custom filter:
+# With filter:
 $ circleci builds --filter='.[] | .build_num'
 ```
 
@@ -179,6 +179,9 @@ $ circleci cancel -- 1
 
 # Explicit project and build:
 $ circleci cancel rockymadden/circleci-cli 1
+
+# With filter:
+$ circleci cancel --filter='.status'
 ```
 
 ### `notify`:
@@ -208,12 +211,15 @@ $ circleci project --
 
 # Explicit project:
 $ circleci project rockymadden/circleci-cli
+
+# With filter:
+$ circleci project --filter='.username + "/" + .reponame'
 ```
 
 ### `projects`:
 
 ```bash
-# Custom filter:
+# With filter:
 $ circleci projects --filter='.[] | .username + "/" + .reponame'
 ```
 
@@ -231,6 +237,9 @@ $ circleci retry -- 1
 
 # Explicit project and build:
 $ circleci retry rockymadden/circleci-cli 1
+
+# With filter:
+$ circleci retry --filter='.status'
 ```
 
 ### `trigger`:
@@ -244,6 +253,9 @@ $ circleci trigger -- master --parameter-key=key1 --parameter-value=val1 --param
 
 # Custom revision:
 $ circleci trigger -- master --revision=634f9656ccf6e0cad7385782e776569bddbf84d6
+
+# With filter:
+$ circleci trigger -- master --filter='.vcs_revision'
 ```
 
 ## License
