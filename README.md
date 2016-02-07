@@ -254,17 +254,29 @@ $ circleci retry --filter='.status'
 ### `trigger`:
 
 ```bash
-# Implicit project and explicit branch:
+# Placeheld project and explicit branch:
 $ circleci trigger -- master
+
+# Explicit project and branch:
+$ circleci trigger rockymadden/circleci-cli master
 
 # With build parameters:
 $ circleci trigger -- master --parameter-key=key1 --parameter-value=val1 --parameter-key=key2 --parameter-value=val2
 
+# With build parameters (shorthand):
+$ circleci trigger -- master -K key1 -V val1 -K key2 -V val2
+
 # With revision:
 $ circleci trigger -- master --revision=634f9656ccf6e0cad7385782e776569bddbf84d6
 
+# With revision (shorthand):
+$ circleci trigger -- master -R 634f9656ccf6e0cad7385782e776569bddbf84d6
+
 # With filter:
 $ circleci trigger -- master --filter='.vcs_revision'
+
+# With filter (shorthand):
+$ circleci trigger -- master -f '.vcs_revision'
 ```
 
 ## License
