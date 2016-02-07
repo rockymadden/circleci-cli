@@ -248,10 +248,10 @@ $ circleci retry --filter='.status'
 # Implicit project and explicit branch:
 $ circleci trigger -- master
 
-# Custom build parameters:
+# With build parameters:
 $ circleci trigger -- master --parameter-key=key1 --parameter-value=val1 --parameter-key=key2 --parameter-value=val2
 
-# Custom revision:
+# With revision:
 $ circleci trigger -- master --revision=634f9656ccf6e0cad7385782e776569bddbf84d6
 
 # With filter:
