@@ -10,6 +10,6 @@ function setup() {
 
 @test 'implicit project and build should work with artifacts' {
   run build/bin/circleci artifacts
-  [ ${status} -eq 0 ]
+  [ "${status}" -eq 0 ]
   [ "${output}" = '[]' ]
 }

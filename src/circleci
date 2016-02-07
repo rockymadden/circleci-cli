@@ -29,6 +29,7 @@ while (( "$#" )); do
     --parameter-value=*) paramvals+=(${1/--parameter-value=/}) ; shift ;;
     --project=*) project=${1/--project=/''} ; shift ;;
     --resolution=*) resolution=${1/--resolution=/''} ; shift ;;
+    --revision=*) revision=${1/--revision=/''} ; shift ;;
     --token=*) token=${1/--token=/''} ; shift ;;
     -B*) branch=${2} ; shift ; shift ;;
     -b*) build=${2} ; shift ; shift ;;
@@ -38,6 +39,7 @@ while (( "$#" )); do
     -m) monochrome='-M' ; shift ;;
     -p*) project=${2} ; shift ; shift ;;
     -r*) resolution=${2} ; shift ; shift ;;
+    -R*) revision=${2} ; shift ; shift ;;
     -t*) token=${2} ; shift ; shift ;;
     -V*) paramvals+=(${2}) ;;
     --)
@@ -189,7 +191,7 @@ function help() {
   echo "  ${bin} projects [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
   echo "  ${bin} retry <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
   echo "  ${bin} trigger <project> <branch> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
-  echo '    [--parameter-key|-K <parameter key>] [--parameter-value|-V <parameter value>]'
+  echo '    [--parameter-key|-K <key>] [--parameter-value|-V <value>] [--revision|-R <revision>]'
   echo
   echo 'Setup Commands:'
   echo '  init    Initialize'
@@ -267,14 +269,33 @@ function retry() {
 }
 
 function trigger() {
-  local params=''
-  for i in "${!paramkeys[@]}"; do
-    params+="\"${paramkeys[$i]}\":\"${paramvals[$i]}\","
-  done
+  local p=''
+  local j=''
+  local r=''
+
+  if [ "${#paramkeys[@]}" -gt 0 ]; then
+    local kv=''
+
+    for i in "${!paramkeys[@]}"; do
+      kv+="\"${paramkeys[$i]}\":\"${paramvals[$i]}\""
+      if [ $(( ${i} + 1 )) -lt "${#paramkeys[@]}" ]; then kv+=","; fi
+    done
+
+    p='"build_parameters": {'"${kv}"'}'
+  fi
+
+  if [ -n "${revision}" ]; then
+    r='"revision": "'"${revision}"'"'
+  fi
+
+  if [ -n "${p}" ] && [ -n "${r}" ]; then
+    j="{${p},${r}}"
+  elif [ -n "${p}" ] || [ -n "${r}" ]; then
+    j="{${p}${r}}"
+  fi
 
   jqify POST \
-    "https://circleci.com/api/v1/project/${project}/tree/${branch}?circle-token=${token}" \
-    '{"build_parameters": {'"${params:0:${#params}-1}"'}}'
+    "https://circleci.com/api/v1/project/${project}/tree/${branch}?circle-token=${token}" "${j}"
 }
 
 function version() {
