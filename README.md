@@ -70,10 +70,12 @@ Convenience Commands:
 > __PROTIPS:__
 * Project names are represented as a combination of username and project name
 (e.g. rockymadden/circleci-cli).
-* `--` can be used as a placeholder for the project, when inside a GitHub-based git repo.
+* `--` can be used as a placeholder for the current project, when inside a GitHub-based git repo.
 * Project placeholder is implicitly applied, when not provided and inside a GitHub-based git repo.
 * `--` can be used as a placeholder for the most recent build.
 * Build placeholder is implicitly applied, when not provided.
+* `--` can be used as a placeholder for the current branch, when inside a git repo.
+* Branch placeholder is implicitly applied, when not provided and inside a git repo.
 * Filters are simply [jq filters](https://stedolan.github.io/jq/manual/), you can provide any filter
 that it can handle.
 * All commands prompt for required arguments which were not provided via options or arguments. This
