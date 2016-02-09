@@ -8,6 +8,11 @@ token=$(test -f "${etcdir}/circleci" && sed -n '1p' < "${etcdir}/circleci")
 cmd="${1}" ; shift
 
 ## Argument and option utility functions ##########################################################
+
+function placehold-branch() {
+  echo "$(git rev-parse --abbrev-ref HEAD)"
+}
+
 function placehold-build() {
   echo $("${bindir}/circleci" builds ${1} --filter='.[] | .build_num' | head -n 1)
 }
@@ -43,6 +48,9 @@ while (( "$#" )); do
     -t*) token=${2} ; shift ; shift ;;
     -V*) paramvals+=(${2}) ;;
     --)
+      case "${cmd}" in
+        trigger) test -n "${project}" && branch=$(placehold-branch) ;;
+      esac
       case "${cmd}" in
         artifacts|await|browse|build|cancel|notify|retry)
           test -n "${project}" && build=$(placehold-build "${project}")
@@ -84,6 +92,9 @@ case "${cmd}" in
   artifacts|await|browse|build|builds|cancel|notify|project|retry|trigger)
     test -z "${project}" && test -n "$(hub browse -u 2> /dev/null)" && project=$(placehold-project)
   ;;
+esac
+case "${cmd}" in
+  trigger) test -z "${branch}" && branch=$(placehold-branch) ;;
 esac
 case "${cmd}" in
   artifacts|await|browse|build|cancel|notify|retry)
