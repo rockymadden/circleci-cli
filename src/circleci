@@ -93,7 +93,7 @@ esac
 
 ## Argument and option prompting ##################################################################
 case "${cmd}" in
-  init) test -z "${token}" && read -e -p 'Enter token: ' token ;;
+  init) test -z "${token}" && read -e -p 'Enter CircleCI API token: ' token ;;
 esac
 case "${cmd}" in
   artifacts|await|browse|build|builds|cancel|notify|project|retry|trigger)
