@@ -269,22 +269,22 @@ $ circleci trigger -- master
 $ circleci trigger rockymadden/circleci-cli master
 
 # With build parameters:
-$ circleci trigger -- master --parameter-key=key1 --parameter-value=val1 --parameter-key=key2 --parameter-value=val2
+$ circleci trigger --parameter-key=key1 --parameter-value=val1 --parameter-key=key2 --parameter-value=val2
 
 # With build parameters (shorthand):
-$ circleci trigger -- master -K key1 -V val1 -K key2 -V val2
+$ circleci trigger -K key1 -V val1 -K key2 -V val2
 
 # With revision:
-$ circleci trigger -- master --revision=634f9656ccf6e0cad7385782e776569bddbf84d6
+$ circleci trigger --revision=634f9656ccf6e0cad7385782e776569bddbf84d6
 
 # With revision (shorthand):
-$ circleci trigger -- master -R 634f9656ccf6e0cad7385782e776569bddbf84d6
+$ circleci trigger -R 634f9656ccf6e0cad7385782e776569bddbf84d6
 
 # With filter:
-$ circleci trigger -- master --filter='.vcs_revision'
+$ circleci trigger --filter='.vcs_revision'
 
 # With filter (shorthand):
-$ circleci trigger -- master -f '.vcs_revision'
+$ circleci trigger -f '.vcs_revision'
 ```
 
 ## License
