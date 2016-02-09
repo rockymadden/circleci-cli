@@ -40,13 +40,13 @@ while (( "$#" )); do
     -b*) build=${2} ; shift ; shift ;;
     -c) compact='-c' ; shift ;;
     -f*) filter=${2} ; shift ; shift ;;
-    -K*) paramkeys+=(${2}) ;;
+    -K*) paramkeys+=(${2}) ; shift ; shift ;;
     -m) monochrome='-M' ; shift ;;
     -p*) project=${2} ; shift ; shift ;;
     -r*) resolution=${2} ; shift ; shift ;;
     -R*) revision=${2} ; shift ; shift ;;
     -t*) token=${2} ; shift ; shift ;;
-    -V*) paramvals+=(${2}) ;;
+    -V*) paramvals+=(${2}) ; shift ; shift ;;
     --)
       case "${cmd}" in
         trigger) test -n "${project}" && branch=$(placehold-branch) ;;
