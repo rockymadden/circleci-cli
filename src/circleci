@@ -8,6 +8,11 @@ token=$(test -f "${etcdir}/circleci" && sed -n '1p' < "${etcdir}/circleci")
 cmd="${1}" ; shift
 
 ## Argument and option utility functions ##########################################################
+
+function placehold-branch() {
+  echo "$(git rev-parse --abbrev-ref HEAD)"
+}
+
 function placehold-build() {
   echo $("${bindir}/circleci" builds ${1} --filter='.[] | .build_num' | head -n 1)
 }
@@ -35,14 +40,17 @@ while (( "$#" )); do
     -b*) build=${2} ; shift ; shift ;;
     -c) compact='-c' ; shift ;;
     -f*) filter=${2} ; shift ; shift ;;
-    -K*) paramkeys+=(${2}) ;;
+    -K*) paramkeys+=(${2}) ; shift ; shift ;;
     -m) monochrome='-M' ; shift ;;
     -p*) project=${2} ; shift ; shift ;;
     -r*) resolution=${2} ; shift ; shift ;;
     -R*) revision=${2} ; shift ; shift ;;
     -t*) token=${2} ; shift ; shift ;;
-    -V*) paramvals+=(${2}) ;;
+    -V*) paramvals+=(${2}) ; shift ; shift ;;
     --)
+      case "${cmd}" in
+        trigger) test -n "${project}" && branch=$(placehold-branch) ;;
+      esac
       case "${cmd}" in
         artifacts|await|browse|build|cancel|notify|retry)
           test -n "${project}" && build=$(placehold-build "${project}")
@@ -86,6 +94,9 @@ case "${cmd}" in
   ;;
 esac
 case "${cmd}" in
+  trigger) test -z "${branch}" && branch=$(placehold-branch) ;;
+esac
+case "${cmd}" in
   artifacts|await|browse|build|cancel|notify|retry)
     test -z "${build}" && build=$(placehold-build "${project}")
   ;;
@@ -93,7 +104,7 @@ esac
 
 ## Argument and option prompting ##################################################################
 case "${cmd}" in
-  init) test -z "${token}" && read -e -p 'Enter token: ' token ;;
+  init) test -z "${token}" && read -e -p 'Enter CircleCI API token: ' token ;;
 esac
 case "${cmd}" in
   artifacts|await|browse|build|builds|cancel|notify|project|retry|trigger)

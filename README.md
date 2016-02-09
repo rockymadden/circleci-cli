@@ -1,10 +1,10 @@
 # circleci-cli <sub><sup>| Powerful CircleCI CLI via pure bash</sup></sub>
 [![version](http://img.shields.io/badge/version-v0.5.1-blue.svg)](https://github.com/rockymadden/circleci-cli/releases)
 [![versioning](http://img.shields.io/badge/versioning-semver-blue.svg)](http://semver.org/)
-[![branching](http://img.shields.io/badge/branching-github%20flow-f14e32.svg)](https://guides.github.com/introduction/flow/)
-[![license](http://img.shields.io/badge/license-mit-3da639.svg)](https://opensource.org/licenses/MIT)
-[![pm](http://img.shields.io/badge/pm-zenhub-3f4d9c.svg)](https://www.zenhub.io/)
-[![chat](http://img.shields.io/badge/chat-slack-e01563.svg)](https://rockymadden-slack.herokuapp.com/)
+[![branching](http://img.shields.io/badge/branching-github%20flow-blue.svg)](https://guides.github.com/introduction/flow/)
+[![license](http://img.shields.io/badge/license-mit-blue.svg)](https://opensource.org/licenses/MIT)
+[![pm](http://img.shields.io/badge/pm-zenhub-blue.svg)](https://www.zenhub.io/)
+[![chat](http://img.shields.io/badge/chat-slack-blue.svg)](https://rockymadden-slack.herokuapp.com/)
 [![circleci](http://img.shields.io/badge/circleci-passing-brightgreen.svg)](https://circleci.com/gh/rockymadden/circleci-cli)
 
 A simple, yet extremely flexible command line interface for [CircleCI](https://circleci.com). Deep
@@ -21,7 +21,7 @@ $ brew install circleci-cli
 
 # Initialize with your CircleCI API token:
 $ circleci init
-Enter token: <your token>
+Enter CircleCI API token: <token>
 ```
 
 > __PROTIP:__ Ensure you have a [CircleCI API token](https://circleci.com/account/api).
@@ -70,10 +70,12 @@ Convenience Commands:
 > __PROTIPS:__
 * Project names are represented as a combination of username and project name
 (e.g. rockymadden/circleci-cli).
-* `--` can be used as a placeholder for the project, when inside a GitHub-based git repo.
+* `--` can be used as a placeholder for the current project, when inside a GitHub-based git repo.
 * Project placeholder is implicitly applied, when not provided and inside a GitHub-based git repo.
 * `--` can be used as a placeholder for the most recent build.
 * Build placeholder is implicitly applied, when not provided.
+* `--` can be used as a placeholder for the current branch, when inside a git repo.
+* Branch placeholder is implicitly applied, when not provided and inside a git repo.
 * Filters are simply [jq filters](https://stedolan.github.io/jq/manual/), you can provide any filter
 that it can handle.
 * All commands prompt for required arguments which were not provided via options or arguments. This
@@ -254,6 +256,12 @@ $ circleci retry --filter='.status'
 ### `trigger`:
 
 ```bash
+# Implicit project and branch:
+$ circleci trigger
+
+# Placeheld project and branch:
+$ circleci trigger -- --
+
 # Placeheld project and explicit branch:
 $ circleci trigger -- master
 
@@ -261,22 +269,22 @@ $ circleci trigger -- master
 $ circleci trigger rockymadden/circleci-cli master
 
 # With build parameters:
-$ circleci trigger -- master --parameter-key=key1 --parameter-value=val1 --parameter-key=key2 --parameter-value=val2
+$ circleci trigger --parameter-key=key1 --parameter-value=val1 --parameter-key=key2 --parameter-value=val2
 
 # With build parameters (shorthand):
-$ circleci trigger -- master -K key1 -V val1 -K key2 -V val2
+$ circleci trigger -K key1 -V val1 -K key2 -V val2
 
 # With revision:
-$ circleci trigger -- master --revision=634f9656ccf6e0cad7385782e776569bddbf84d6
+$ circleci trigger --revision=634f9656ccf6e0cad7385782e776569bddbf84d6
 
 # With revision (shorthand):
-$ circleci trigger -- master -R 634f9656ccf6e0cad7385782e776569bddbf84d6
+$ circleci trigger -R 634f9656ccf6e0cad7385782e776569bddbf84d6
 
 # With filter:
-$ circleci trigger -- master --filter='.vcs_revision'
+$ circleci trigger --filter='.vcs_revision'
 
 # With filter (shorthand):
-$ circleci trigger -- master -f '.vcs_revision'
+$ circleci trigger -f '.vcs_revision'
 ```
 
 ## License
