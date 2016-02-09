@@ -256,6 +256,12 @@ $ circleci retry --filter='.status'
 ### `trigger`:
 
 ```bash
+# Implicit project and branch:
+$ circleci trigger
+
+# Placeheld project and branch:
+$ circleci trigger -- --
+
 # Placeheld project and explicit branch:
 $ circleci trigger -- master
 
