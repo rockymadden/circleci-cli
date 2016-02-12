@@ -2,12 +2,7 @@
 
 load suite
 
-function setup() {
-  if [ "$(uname -s)" != 'Darwin' ]; then
-    skip 'OS X should be available'
-  fi
-}
-
 @test 'browse should exit 0 and open browser' {
+  skip-osx
   build/bin/circleci browse rockymadden/circleci-cli 1
 }
