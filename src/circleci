@@ -123,13 +123,13 @@ esac
 ## Command utility functions ######################################################################
 function jqify() {
   case "${1}" in
-    GET) local rsp ; rsp=$(curl -f -s -H 'Accept: application/json' "${2}") ;;
+    GET) local rsp ; rsp=$(curl -f -s -H 'Accept: application/json' "${2}?circle-token=${token}") ;;
     POST)
       local rsp ; rsp=$(\
         curl -f -s -X POST \
           -H 'Accept: application/json' \
           -H 'Content-Type: application/json' \
-          -d "${3}" "${2}")
+          -d "${3}" "${2}?circle-token=${token}")
     ;;
   esac
 
@@ -141,7 +141,7 @@ function jqify() {
 
 ## Command functions ##############################################################################
 function artifacts() {
-  jqify GET "https://circleci.com/api/v1/project/${project}/${build}/artifacts?circle-token=${token}"
+  jqify GET "https://circleci.com/api/v1/project/${project}/${build}/artifacts"
 }
 
 function await() {
@@ -172,7 +172,7 @@ function browse() {
 }
 
 function build() {
-  jqify GET "https://circleci.com/api/v1/project/${project}/${build}?circle-token=${token}"
+  jqify GET "https://circleci.com/api/v1/project/${project}/${build}"
 }
 
 function builds() {
@@ -180,7 +180,7 @@ function builds() {
 }
 
 function cancel() {
-  jqify POST "https://circleci.com/api/v1/project/${project}/${build}/cancel?circle-token=${token}"
+  jqify POST "https://circleci.com/api/v1/project/${project}/${build}/cancel"
 }
 
 function help() {
@@ -235,7 +235,7 @@ function init() {
 }
 
 function me() {
-  jqify GET "https://circleci.com/api/v1/me?circle-token=${token}"
+  jqify GET "https://circleci.com/api/v1/me"
 }
 
 function notify() {
@@ -272,11 +272,11 @@ function project() {
 }
 
 function projects() {
-  jqify GET "https://circleci.com/api/v1/projects?circle-token=${token}"
+  jqify GET "https://circleci.com/api/v1/projects"
 }
 
 function retry() {
-  jqify POST "https://circleci.com/api/v1/project/${project}/${build}/retry?circle-token=${token}"
+  jqify POST "https://circleci.com/api/v1/project/${project}/${build}/retry"
 }
 
 function trigger() {
@@ -306,7 +306,7 @@ function trigger() {
   fi
 
   jqify POST \
-    "https://circleci.com/api/v1/project/${project}/tree/${branch}?circle-token=${token}" "${j}"
+    "https://circleci.com/api/v1/project/${project}/tree/${branch}" "${j}"
 }
 
 function version() {
