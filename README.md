@@ -271,19 +271,19 @@ $ circleci trigger rockymadden/circleci-cli master
 # With build parameters:
 $ circleci trigger --parameter-key=key1 --parameter-value=val1 --parameter-key=key2 --parameter-value=val2
 
-# With build parameters (shorthand):
+# With build parameters (short form):
 $ circleci trigger -K key1 -V val1 -K key2 -V val2
 
 # With revision:
 $ circleci trigger --revision=634f9656ccf6e0cad7385782e776569bddbf84d6
 
-# With revision (shorthand):
+# With revision (short form):
 $ circleci trigger -R 634f9656ccf6e0cad7385782e776569bddbf84d6
 
 # With filter:
 $ circleci trigger --filter='.vcs_revision'
 
-# With filter (shorthand):
+# With filter (short form):
 $ circleci trigger -f '.vcs_revision'
 ```
 
