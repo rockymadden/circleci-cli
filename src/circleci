@@ -26,27 +26,25 @@ function placehold-project() {
 while (( "$#" )); do
   case "${1}" in
     --branch=*) branch=${1/--branch=/''} ; shift ;;
+    --branch*|-B*) branch=${2} ; shift ; shift ;;
     --build=*) build=${1/--build=/''} ; shift ;;
-    --compact) compact='-c' ; shift ;;
+    --build*|-b*) build=${2} ; shift ; shift ;;
+    --compact|-c) compact='-c' ; shift ;;
     --filter=*) filter=${1/--filter=/''} ; shift ;;
-    --monochrome) monochrome='-M' ; shift ;;
+    --filter*|-f*) filter=${2} ; shift ; shift ;;
+    --monochrome|-m) monochrome='-M' ; shift ;;
     --parameter-key=*) paramkeys+=(${1/--parameter-key=/}) ; shift ;;
+    --parameter-key*|-K*) paramkeys+=(${2}) ; shift ; shift ;;
     --parameter-value=*) paramvals+=(${1/--parameter-value=/}) ; shift ;;
+    --parameter-value*|-V*) paramvals+=(${2}) ; shift ; shift ;;
     --project=*) project=${1/--project=/''} ; shift ;;
+    --project*|-p*) project=${2} ; shift ; shift ;;
     --resolution=*) resolution=${1/--resolution=/''} ; shift ;;
+    --resolution*|-r*) resolution=${2} ; shift ; shift ;;
     --revision=*) revision=${1/--revision=/''} ; shift ;;
+    --revision*|-R*) revision=${2} ; shift ; shift ;;
     --token=*) token=${1/--token=/''} ; shift ;;
-    -B*) branch=${2} ; shift ; shift ;;
-    -b*) build=${2} ; shift ; shift ;;
-    -c) compact='-c' ; shift ;;
-    -f*) filter=${2} ; shift ; shift ;;
-    -K*) paramkeys+=(${2}) ; shift ; shift ;;
-    -m) monochrome='-M' ; shift ;;
-    -p*) project=${2} ; shift ; shift ;;
-    -r*) resolution=${2} ; shift ; shift ;;
-    -R*) revision=${2} ; shift ; shift ;;
-    -t*) token=${2} ; shift ; shift ;;
-    -V*) paramvals+=(${2}) ; shift ; shift ;;
+    --token|-t*) token=${2} ; shift ; shift ;;
     --)
       case "${cmd}" in
         trigger) test -n "${project}" && branch=$(placehold-branch) ;;
