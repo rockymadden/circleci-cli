@@ -2,7 +2,8 @@
 
 bindir=
 etcdir=
-token=$(test -f "${etcdir}/circleci" && sed -n '1p' < "${etcdir}/circleci")
+_token=$(test -f "${etcdir}/circleci" && sed -n '1p' < "${etcdir}/circleci")
+token=${_token}
 
 ## Command parsing ################################################################################
 cmd="${1}" ; shift
@@ -102,7 +103,11 @@ esac
 
 ## Argument and option prompting ##################################################################
 case "${cmd}" in
-  init) test -z "${token}" && read -e -p 'Enter CircleCI API token: ' token ;;
+  init)
+    if test -z "${token}" || test "${token}" == "${_token}"; then
+      read -e -p 'Enter CircleCI API token: ' token
+    fi
+  ;;
 esac
 case "${cmd}" in
   artifacts|await|browse|build|builds|cancel|notify|project|retry|trigger)
