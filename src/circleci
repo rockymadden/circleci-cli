@@ -320,8 +320,14 @@ function version() {
 case "${cmd}" in
   --help|-h) help ; exit 0 ;;
   --version|-v) version ; exit 0 ;;
-  artifacts|await|browse|build|builds|cancel|init|me|notify|project|projects|retry|trigger)
-    "${cmd}" ; exit $?
+  init) "${cmd}" ; exit $? ;;
+  artifacts|await|browse|build|builds|cancel|me|notify|project|projects|retry|trigger)
+    if test -z "${token}"; then
+      echo '{"initialized": false, "outcome": "failed"}' |
+        jq -r ${compact} ${monochrome} "${filter:=.}" ; exit 1
+    else
+      "${cmd}" ; exit $?
+    fi
   ;;
   *) help ; exit 1 ;;
 esac
