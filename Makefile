@@ -10,8 +10,8 @@ install: | stub
 ifeq (${uname}, Darwin)
 	@$(eval _bindir := $(shell greadlink -f ${bindir}))
 	@$(eval _etcdir := $(shell greadlink -f ${etcdir}))
-	@sed -i ''  "s|bindir=|bindir=${_bindir}|g" ${bindir}/circleci
-	@sed -i ''  "s|etcdir=|etcdir=${_etcdir}|g" ${bindir}/circleci
+	@sed -i '' "s|bindir=|bindir=${_bindir}|g" ${bindir}/circleci
+	@sed -i '' "s|etcdir=|etcdir=${_etcdir}|g" ${bindir}/circleci
 else ifeq (${uname}, Linux)
 	@$(eval _bindir := $(shell readlink -f ${bindir}))
 	@$(eval _etcdir := $(shell readlink -f ${etcdir}))

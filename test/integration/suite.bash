@@ -14,5 +14,5 @@ function skip-osx() {
 
 function setup() {
   skip-env
-  build/bin/circleci init --token="${CIRCLECI_CLI_TOKEN}"
+  echo "${CIRCLECI_CLI_TOKEN}" | build/bin/circleci init
 }
