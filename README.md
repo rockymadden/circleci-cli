@@ -21,10 +21,6 @@ $ brew install circleci-cli
 
 $ # Initialize:
 $ circleci init
-Enter CircleCI API token: <token>
-{
-  "outcome": "success"
-}
 ```
 
 > __PROTIP:__ Ensure you have a [CircleCI API token](https://circleci.com/account/api).
