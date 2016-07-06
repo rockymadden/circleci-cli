@@ -8,7 +8,6 @@ token=$(test -f "${etcdir}/circleci" && sed -n '1p' < "${etcdir}/circleci")
 cmd="${1}" ; shift
 
 ## Argument and option utility functions ##########################################################
-
 function placehold-branch() {
   echo "$(git rev-parse --abbrev-ref HEAD)"
 }
