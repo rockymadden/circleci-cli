@@ -75,8 +75,12 @@ Convenience Commands:
 * Build placeholder is implicitly applied, when not provided.
 * `--` can be used as a placeholder for the current branch, when inside a git repo.
 * Branch placeholder is implicitly applied, when not provided and inside a git repo.
-* Filters are simply [jq filters](https://stedolan.github.io/jq/manual/), you can provide any filter
-  that it can handle.
+* The `--compact` option is a wrapper around the [jq](https://stedolan.github.io/jq/manual/)
+  `--compact-output` option
+* The `--filter` option is passed directly to [jq](https://stedolan.github.io/jq/manual/) as a
+  filter
+* The `--monochrome` option a wrapper around the [jq](https://stedolan.github.io/jq/manual/)
+  `--monochrome-output` option
 * All commands prompt for required arguments which were not provided via options or arguments. This
   allows for both traditional usage and prompt-based usage.
 
