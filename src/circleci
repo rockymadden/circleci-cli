@@ -2,12 +2,12 @@
 
 bindir=
 etcdir=
-token=$(test -f "${etcdir}/circleci" && sed -n '1p' < "${etcdir}/circleci")
+token=$([ -f "${etcdir}/circleci" ] && sed -n '1p' < "${etcdir}/circleci")
 
-## Command parsing ################################################################################
+# COMMAND PARSING #################################################################################
 cmd="${1}" ; shift
 
-## Argument and option utility functions ##########################################################
+# ARGUMENT AND OPTION UTILITY FUNCTIONS ###########################################################
 function placehold-branch() {
   echo "$(git rev-parse --abbrev-ref HEAD)"
 }
@@ -21,7 +21,7 @@ function placehold-project() {
   echo "$(echo "${url}" | cut -d '/' -f4)/$(echo "${url}" | cut -d '/' -f5)"
 }
 
-## Argument and option parsing ####################################################################
+# ARGUMENT AND OPTION PARSING #####################################################################
 while (( "$#" )); do
   case "${1}" in
     --branch=*) branch=${1/--branch=/''} ; shift ;;
@@ -46,16 +46,16 @@ while (( "$#" )); do
     --token|-t*) token=${2} ; shift ; shift ;;
     --)
       case "${cmd}" in
-        trigger) test -n "${project}" && branch=$(placehold-branch) ;;
+        trigger) [ -n "${project}" ] && branch=$(placehold-branch) ;;
       esac
       case "${cmd}" in
         artifacts|await|browse|build|cancel|notify|retry)
-          test -n "${project}" && build=$(placehold-build "${project}")
+          [ -n "${project}" ] && build=$(placehold-build "${project}")
         ;;
       esac
       case "${cmd}" in
         artifacts|await|browse|build|builds|cancel|notify|project|retry|trigger)
-          test -z "${project}" && project=$(placehold-project)
+          [ -z "${project}" ] && project=$(placehold-project)
         ;;
       esac
       shift
@@ -63,17 +63,17 @@ while (( "$#" )); do
     *)
       case "${cmd}" in
         artifacts|await|browse|build|cancel|notify|retry)
-          test -n "${1}" && test -n "${project}" && build=${1}
+          [ -n "${1}" ] && [ -n "${project}" ] && build=${1}
         ;;
       esac
       case "${cmd}" in
         trigger)
-          test -n "${1}" && test -n "${project}" && branch=${1}
+          [ -n "${1}" ] && [ -n "${project}" ] && branch=${1}
         ;;
       esac
       case "${cmd}" in
         artifacts|await|browse|build|builds|cancel|notify|project|retry|trigger)
-          test -n "${1}" && test -z "${project}" && project=${1}
+          [ -n "${1}" ] && [ -z "${project}" ] && project=${1}
         ;;
       esac
       shift
@@ -81,49 +81,49 @@ while (( "$#" )); do
   esac
 done
 
-## Implicit/default arguments and options #########################################################
+# IMPLICIT/DEFAULT ARGUMENTS AND OPTIONS ##########################################################
 case "${cmd}" in
-  await|notify) test -z "${resolution}" && resolution=10 ;;
+  await|notify) [ -z "${resolution}" ] && resolution=10 ;;
 esac
 case "${cmd}" in
   artifacts|await|browse|build|builds|cancel|notify|project|retry|trigger)
-    test -z "${project}" && test -n "$(hub browse -u 2> /dev/null)" && project=$(placehold-project)
+    [ -z "${project}" ] && [ -n "$(hub browse -u 2> /dev/null)" ] && project=$(placehold-project)
   ;;
 esac
 case "${cmd}" in
-  trigger) test -z "${branch}" && branch=$(placehold-branch) ;;
+  trigger) [ -z "${branch}" ] && branch=$(placehold-branch) ;;
 esac
 case "${cmd}" in
   artifacts|await|browse|build|cancel|notify|retry)
-    test -z "${build}" && build=$(placehold-build "${project}")
+    [ -z "${build}" ] && build=$(placehold-build "${project}")
   ;;
 esac
 
-## Argument and option prompting ##################################################################
+# ARGUMENT AND OPTION PROMPTING ###################################################################
 case "${cmd}" in
   init)
-    _token=$(test -f "${etcdir}/circleci" && sed -n '1p' < "${etcdir}/circleci")
+    _token=$([ -f "${etcdir}/circleci" ] && sed -n '1p' < "${etcdir}/circleci")
 
-    if test -z "${token}" || test "${token}" == "${_token}"; then
+    if [ -z "${token}" ] || [ "${token}" == "${_token}" ]; then
       read -e -p 'Enter CircleCI API token: ' token
     fi
   ;;
 esac
 case "${cmd}" in
   artifacts|await|browse|build|builds|cancel|notify|project|retry|trigger)
-    test -z "${project}" && read -e -p 'Enter project slug (e.g. rockymadden/circleci-cli): ' project
+    [ -z "${project}" ] && read -e -p 'Enter project slug (e.g. rockymadden/circleci-cli): ' project
   ;;
 esac
 case "${cmd}" in
   artifacts|await|browse|build|cancel|notify|retry)
-    test -z "${build}" && read -e -p 'Enter build (e.g. 123): ' build
+    [ -z "${build}" ] && read -e -p 'Enter build (e.g. 123): ' build
   ;;
 esac
 case "${cmd}" in
-  trigger) test -z "${branch}" && read -e -p 'Enter branch (e.g. master): ' branch ;;
+  trigger) [ -z "${branch}" ] && read -e -p 'Enter branch (e.g. master): ' branch ;;
 esac
 
-## Command utility functions ######################################################################
+# COMMAND UTILITY FUNCTIONS #######################################################################
 function jqify() {
   case "${1}" in
     GET) local rsp ; rsp=$(curl -f -s -H 'Accept: application/json' "${2}?circle-token=${token}") ;;
@@ -142,7 +142,7 @@ function jqify() {
   esac
 }
 
-## Command functions ##############################################################################
+# COMMAND FUNCTIONS ###############################################################################
 function artifacts() {
   jqify GET "https://circleci.com/api/v1/project/${project}/${build}/artifacts"
 }
@@ -266,9 +266,9 @@ function project() {
 
   case "$?" in
     0)
-      echo ${rsp} | \
-      jq -c -M "map(select(.username + \"/\" + .reponame == \"${project}\")) | .[]" | \
-      jq -r ${compact} ${monochrome} "${filter:=.}"
+      echo ${rsp} |
+        jq -c -M "map(select(.username + \"/\" + .reponame == \"${project}\")) | .[]" |
+        jq -r ${compact} ${monochrome} "${filter:=.}"
     ;;
     *) return 1 ;;
   esac
@@ -316,16 +316,15 @@ function version() {
   echo 'v0.7.0'
 }
 
-## Command routing ################################################################################
+# COMMAND ROUTING #################################################################################
 case "${cmd}" in
   --help|-h) help ; exit 0 ;;
   --version|-v) version ; exit 0 ;;
   init) "${cmd}" ; exit $? ;;
   artifacts|await|browse|build|builds|cancel|me|notify|project|projects|retry|trigger)
-    if test -z "${token}"; then
+    if [ -z "${token}" ]; then
       echo '{"initialized": false, "outcome": "failed"}' |
-        jq -r ${compact} ${monochrome} "${filter:=.}"
-      exit 1
+        jq -r ${compact} ${monochrome} "${filter:=.}" ; exit 1
     else
       "${cmd}" ; exit $?
     fi
