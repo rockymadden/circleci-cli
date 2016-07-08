@@ -193,27 +193,39 @@ function help() {
   echo 'Usage:'
   echo "  ${bin} artifacts <project> <build>"
   echo '    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]'
+  echo
   echo "  ${bin} await <project> <build>"
   echo '    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--resolution|-r <seconds>]'
+  echo
   echo "  ${bin} browse <project> [build]"
+  echo
   echo "  ${bin} build <project> <build>"
   echo '    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]'
+  echo
   echo "  ${bin} builds <project>"
   echo '    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]'
+  echo
   echo "  ${bin} cancel <project> <build>"
   echo '    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]'
+  echo
   echo "  ${bin} init"
   echo '    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--token|-t <token>]'
+  echo
   echo "  ${bin} me"
   echo '    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]'
+  echo
   echo "  ${bin} notify <project> <build>"
   echo '    [--resolution|-r <seconds>]'
+  echo
   echo "  ${bin} project <project>"
   echo '    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]'
+  echo
   echo "  ${bin} projects"
   echo '    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]'
+  echo
   echo "  ${bin} retry <project> <build>"
   echo '    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]'
+  echo
   echo "  ${bin} trigger <project> <branch>"
   echo '    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--parameter-key|-K <key>]'
   echo '    [--parameter-value|-V <value>] [--revision|-R <revision>]'
