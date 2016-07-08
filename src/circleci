@@ -192,18 +192,30 @@ function help() {
 
   echo 'Usage:'
   echo "  ${bin} artifacts <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
+  echo
   echo "  ${bin} await <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
   echo '    [--resolution|-r <seconds>]'
+  echo
   echo "  ${bin} browse <project> [build]"
+  echo
   echo "  ${bin} build <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
+  echo
   echo "  ${bin} builds <project> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
+  echo
   echo "  ${bin} cancel <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
+  echo
   echo "  ${bin} init [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--token|-t <token>]"
+  echo
   echo "  ${bin} me [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
+  echo
   echo "  ${bin} notify <project> <build> [--resolution|-r <seconds>]"
+  echo
   echo "  ${bin} project <project> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
+  echo
   echo "  ${bin} projects [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
+  echo
   echo "  ${bin} retry <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
+  echo
   echo "  ${bin} trigger <project> <branch> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
   echo '    [--parameter-key|-K <key>] [--parameter-value|-V <value>] [--revision|-R <revision>]'
   echo
@@ -226,6 +238,10 @@ function help() {
   echo '  browse    Open CircleCI page of a given project'
   echo '  notify    Await success or failure of a given build for a given project and create an OS X'
   echo '            notification with the details'
+  echo
+  echo 'More Information:'
+  echo '  chat    https://rockymadden-slack.herokuapp.com/'
+  echo '  repo    https://github.com/rockymadden/circleci-cli'
 }
 
 function init() {

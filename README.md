@@ -9,11 +9,28 @@
 
 A simple, yet extremely flexible command line interface for [CircleCI](https://circleci.com). Deep
 integration with [jq](https://github.com/stedolan/jq) allows for the ability to perform complex
-declarative/higher-order operations on responses, helping you perform complex piping/compositional
-operations with relative ease (see the [integration tests](test/integration) for some simple
-examples).
+operations upon JSON responses, helping you perform compositional operations (i.e. pipe chaining)
+with ease.
+
+__Simple workflow example:__
+
+Perform code changes, test locally, `git add`, `git commit`, and then:
+
+```bash
+$ # Push up to GitHub repo, wait 10 seconds for the CircleCI hook to fire, then alert us to
+$ # CircleCI build success or failure via an OS X notification.
+$ git push && { sleep 10 ; circleci notify; } &
+```
+
+Resulting notification:
+
+![notification](http://share.rockymadden.com/461G1w1V340c/Image%202016-07-08%20at%2012.44.45.png)
+
+> __PROTIP:__ You can click notifications to be taken directly to the CircleCI build for further
+details.
 
 ## Installation
+
 ```bash
 $ # Install from tap:
 $ brew tap rockymadden/rockymadden
@@ -26,22 +43,35 @@ $ circleci init
 > __PROTIP:__ Ensure you have a [CircleCI API token](https://circleci.com/account/api).
 
 ## Usage
+
 ```bash
 $ circleci --help
 Usage:
   circleci artifacts <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+
   circleci await <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
     [--resolution|-r <seconds>]
+
   circleci browse <project> [build]
+
   circleci build <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+
   circleci builds <project> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+
   circleci cancel <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+
   circleci init [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--token|-t <token>]
+
   circleci me [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+
   circleci notify <project> <build> [--resolution|-r <seconds>]
+
   circleci project <project> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+
   circleci projects [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+
   circleci retry <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+
   circleci trigger <project> <branch> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
     [--parameter-key|-K <key>] [--parameter-value|-V <value>] [--revision|-R <revision>]
 
@@ -64,6 +94,10 @@ Convenience Commands:
   browse    Open CircleCI page of a given project
   notify    Await success or failure of a given build for a given project and create an OS X
             notification with the details
+
+More Information:
+  chat    https://rockymadden-slack.herokuapp.com/
+  repo    https://github.com/rockymadden/circleci-cli
 ```
 
 > __PROTIPS:__
