@@ -23,6 +23,7 @@ $ git push && sleep 5 && circleci notify &
 ```
 
 OS X notification:
+
 ![notification](http://share.rockymadden.com/461G1w1V340c/Image%202016-07-08%20at%2012.44.45.png)
 
 ## Installation
