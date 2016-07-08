@@ -238,6 +238,10 @@ function help() {
   echo '  browse    Open CircleCI page of a given project'
   echo '  notify    Await success or failure of a given build for a given project and create an OS X'
   echo '            notification with the details'
+  echo
+  echo 'More Information:'
+  echo '  chat    https://rockymadden-slack.herokuapp.com/'
+  echo '  repo    https://github.com/rockymadden/circleci-cli'
 }
 
 function init() {

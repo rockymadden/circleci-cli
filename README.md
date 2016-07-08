@@ -94,6 +94,10 @@ Convenience Commands:
   browse    Open CircleCI page of a given project
   notify    Await success or failure of a given build for a given project and create an OS X
             notification with the details
+
+More Information:
+  chat    https://rockymadden-slack.herokuapp.com/
+  repo    https://github.com/rockymadden/circleci-cli
 ```
 
 > __PROTIPS:__
