@@ -19,7 +19,7 @@ Perform code changes, test locally, `git add`, `git commit`, and then:
 ```bash
 $ # Push up to GitHub repo, wait 5 seconds for the CircleCI hook to fire, then we are alerted to
 $ # CircleCI build success or failure via a OS X notification.
-$ git push origin && sleep 5 && circleci notify &
+$ git push && sleep 5 && circleci notify &
 ```
 
 ## Installation
