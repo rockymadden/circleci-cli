@@ -17,10 +17,13 @@ __Simple workflow example:__
 Perform code changes, test locally, `git add`, `git commit`, and then:
 
 ```bash
-$ # Push up to GitHub repo, wait 5 seconds for the CircleCI hook to fire, then we are alerted to
+$ # Push up to GitHub repo, wait 5 seconds for the CircleCI hook to fire, then alert us to
 $ # CircleCI build success or failure via a OS X notification.
 $ git push && sleep 5 && circleci notify &
 ```
+
+OS X notification:
+![notification](http://share.rockymadden.com/461G1w1V340c/Image%202016-07-08%20at%2012.44.45.png)
 
 ## Installation
 
