@@ -22,9 +22,12 @@ $ # CircleCI build success or failure via a OS X notification.
 $ git push && sleep 5 && circleci notify &
 ```
 
-Resulting OS X notification:
+Resulting notification:
 
 ![notification](http://share.rockymadden.com/461G1w1V340c/Image%202016-07-08%20at%2012.44.45.png)
+
+> __PROTIP:__ You can click notifications to be taken directly to the CircleCI build for further
+details.
 
 ## Installation
 
