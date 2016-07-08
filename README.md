@@ -28,21 +28,32 @@ $ circleci init
 ```bash
 $ circleci --help
 Usage:
-  circleci artifacts <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
-  circleci await <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
-    [--resolution|-r <seconds>]
+  circleci artifacts <project> <build>
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+  circleci await <project> <build>
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--resolution|-r <seconds>]
   circleci browse <project> [build]
-  circleci build <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
-  circleci builds <project> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
-  circleci cancel <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
-  circleci init [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--token|-t <token>]
-  circleci me [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
-  circleci notify <project> <build> [--resolution|-r <seconds>]
-  circleci project <project> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
-  circleci projects [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
-  circleci retry <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
-  circleci trigger <project> <branch> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
-    [--parameter-key|-K <key>] [--parameter-value|-V <value>] [--revision|-R <revision>]
+  circleci build <project> <build>
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+  circleci builds <project>
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+  circleci cancel <project> <build>
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+  circleci init
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--token|-t <token>]
+  circleci me
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+  circleci notify <project> <build>
+    [--resolution|-r <seconds>]
+  circleci project <project>
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+  circleci projects
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+  circleci retry <project> <build>
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+  circleci trigger <project> <branch>
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--parameter-key|-K <key>]
+    [--parameter-value|-V <value>] [--revision|-R <revision>]
 
 Configuration Commands:
   init    Initialize
