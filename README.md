@@ -12,7 +12,18 @@ integration with [jq](https://github.com/stedolan/jq) allows for the ability to 
 operations upon JSON responses, helping you perform compositional operations (i.e. pipe chaining)
 with ease.
 
+__Simple workflow example:__
+
+Perform code changes, test locally, `git add`, `git commit`, and then:
+
+```bash
+$ # Push up to a GitHub repo, wait 5 seconds for the CirleCI hook to fire, then we are alerted to
+$ # CircleCI build success or failure via a OS X notification.
+$ git push origin && sleep 5 && circleci notify &
+```
+
 ## Installation
+
 ```bash
 $ # Install from tap:
 $ brew tap rockymadden/rockymadden
@@ -25,6 +36,7 @@ $ circleci init
 > __PROTIP:__ Ensure you have a [CircleCI API token](https://circleci.com/account/api).
 
 ## Usage
+
 ```bash
 $ circleci --help
 Usage:
