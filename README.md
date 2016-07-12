@@ -22,14 +22,14 @@ __Example uses:__
 
 ## Installation
 
-### Via homebrew tap:
+### Via `brew`:
 
 ```bash
 $ brew tap rockymadden/rockymadden
 $ brew install circleci-cli
 ```
 
-### Via curl:
+### Via `curl`:
 
 ```bash
 $ curl -O https://raw.githubusercontent.com/rockymadden/circleci-cli/master/src/circleci
@@ -39,7 +39,7 @@ $ chmod 755 circleci
 > __PROTIP:__ You are responsible for having `stedolan/jq` and, optionally, `github/hub` on your
 path.
 
-### Via `make` from source:
+### Via `make`:
 
 ```bash
 $ git clone git@github.com:rockymadden/circleci-cli.git
