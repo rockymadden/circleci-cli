@@ -7,32 +7,18 @@
 [![chat](http://img.shields.io/badge/chat-slack-blue.svg)](https://rockymadden-slack.herokuapp.com/)
 [![circleci](http://img.shields.io/badge/circleci-passing-brightgreen.svg)](https://circleci.com/gh/rockymadden/circleci-cli)
 
-A pure bash, feature rich command line interface for [CircleCI](https://circleci.com). Deep
-integration with [jq](https://github.com/stedolan/jq) allows for the ability to perform complex
-operations upon JSON responses, helping you do all sorts of amazing things, including performing
-compositional operations (i.e. pipe chaining), with ease.
+A pure bash, feature rich command line interface for [CircleCI](https://circleci.com).
 
-### CLI integrated workflow example:
+__Example uses:__
 
-Add an alias for `git push` which automatically notifies you via OS X notifications as to the
-success or failure of your CircleCI build from said `git push`:
-
-```bash
-alias gpn='f() { git push && { sleep 10 ; circleci notify; } &; }; f'
-```
-
-Now, perform code changes, `git add`, `git commit`, and then use the alias above to `git push`:
-
-```bash
-$ gpn
-```
-
-Resulting notification, each time you `gpn`:
-
-![notification](http://share.rockymadden.com/461G1w1V340c/Image%202016-07-08%20at%2012.44.45.png)
-
-> __PROTIP:__ You can click notifications to be taken directly to the CircleCI build for further
-details.
+* Interacting with the CircleCI API via command line (obvious)
+* Get an OS X notification each time you `git push` which notifies you to the CircleCI build status
+  once finished
+* Perform advanced filtering upon JSON responses to do things that are not possible via the UI,
+  like getting a list of recently failed builds
+* Perform advanced filtering upon JSON responses to do piped operations back into `circleci-cli`
+  and/or other CLIs (e.g. find failed builds and re-trigger them, find successful builds and feed
+  into a dashboard)
 
 ## Installation
 
@@ -158,6 +144,28 @@ More Information:
   allows for both traditional usage and prompt-based usage.
 
 ## Examples and Recipes
+
+### CLI integrated workflow:
+
+Add an alias for `git push` which automatically notifies you via OS X notifications as to the
+success or failure of your CircleCI build from said `git push`:
+
+```bash
+alias gpn='f() { git push && { sleep 10 ; circleci notify; } &; }; f'
+```
+
+Now, perform code changes, `git add`, `git commit`, and then use the alias above to `git push`:
+
+```bash
+$ gpn
+```
+
+Resulting notification, each time you `gpn`:
+
+![notification](http://share.rockymadden.com/461G1w1V340c/Image%202016-07-08%20at%2012.44.45.png)
+
+> __PROTIP:__ You can click notifications to be taken directly to the CircleCI build for further
+details.
 
 ### `artifacts`:
 
