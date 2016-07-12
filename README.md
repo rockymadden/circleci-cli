@@ -81,7 +81,8 @@ Usage:
 
   circleci build <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
 
-  circleci builds <project> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+  circleci builds <project> [--compact|-c] [--filter|-f <filter>] [--limit|-l <limit>]
+    [--monochrome|-m] [--offset|-o <offset>]
 
   circleci cancel <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
 
