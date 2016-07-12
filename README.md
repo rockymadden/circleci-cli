@@ -15,7 +15,7 @@ __Example uses:__
 * Get an OS X notification each time you `git push` which notifies you to the CircleCI build status
   once finished
 * Perform advanced filtering upon JSON responses to do things that are not possible via the UI,
-  like getting a list of recently failed builds
+  like getting a list of recently failed and/or currently executing builds
 * Perform advanced filtering upon JSON responses to do piped operations back into `circleci-cli`
   and/or other CLIs (e.g. find failed builds and re-trigger them, find successful builds and feed
   into a dashboard)
