@@ -9,10 +9,10 @@
 
 A pure bash, feature rich command line interface for [CircleCI](https://circleci.com). Deep
 integration with [jq](https://github.com/stedolan/jq) allows for the ability to perform complex
-operations upon JSON responses, helping you perform compositional operations (i.e. pipe chaining)
-with ease.
+operations upon JSON responses, helping you do all sorts of amazing things, including performing
+compositional operations (i.e. pipe chaining), with ease.
 
-#### CLI integrated workflow example:
+### CLI integrated workflow example:
 
 Add an alias for `git push` which automatically notifies you via OS X notifications as to the
 success or failure of your CircleCI build from said `git push`:
