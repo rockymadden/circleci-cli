@@ -7,22 +7,27 @@
 [![chat](http://img.shields.io/badge/chat-slack-blue.svg)](https://rockymadden-slack.herokuapp.com/)
 [![circleci](http://img.shields.io/badge/circleci-passing-brightgreen.svg)](https://circleci.com/gh/rockymadden/circleci-cli)
 
-A simple, yet extremely flexible command line interface for [CircleCI](https://circleci.com). Deep
+A pure bash, feature rich command line interface for [CircleCI](https://circleci.com). Deep
 integration with [jq](https://github.com/stedolan/jq) allows for the ability to perform complex
 operations upon JSON responses, helping you perform compositional operations (i.e. pipe chaining)
 with ease.
 
-__Simple workflow example:__
+#### CLI integrated workflow example:
 
-Perform code changes, test locally, `git add`, `git commit`, and then:
+Add an alias for `git push` which automatically notifies you via OS X notifications as to the
+success or failure of your CircleCI build from said `git push`:
 
 ```bash
-$ # Push up to GitHub repo, wait 10 seconds for the CircleCI hook to fire, then alert us to
-$ # CircleCI build success or failure via an OS X notification.
-$ git push && { sleep 10 ; circleci notify; } &
+alias gpn='f() { git push && { sleep 10 ; circleci notify; } &; }; f'
 ```
 
-Resulting notification:
+Now, perform code changes, `git add`, `git commit`, and then use the alias above to `git push`:
+
+```bash
+$ gpn
+```
+
+Resulting notification, each time you `gpn`:
 
 ![notification](http://share.rockymadden.com/461G1w1V340c/Image%202016-07-08%20at%2012.44.45.png)
 
