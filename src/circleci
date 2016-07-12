@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 
-bindir=
-etcdir=
-token=$([ -f "${etcdir}/circleci" ] && sed -n '1p' < "${etcdir}/circleci")
+bindir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+etcdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+if [ -f "${etcdir}/.circleci" ]; then
+  token=$(sed -n '1p' < "${etcdir}/.circleci")
+else
+  token=${CIRCLECI_CLI_TOKEN}
+fi
 
 # COMMAND PARSING #################################################################################
 cmd="${1}" ; shift
@@ -102,7 +107,11 @@ esac
 # ARGUMENT AND OPTION PROMPTING ###################################################################
 case "${cmd}" in
   init)
-    _token=$([ -f "${etcdir}/circleci" ] && sed -n '1p' < "${etcdir}/circleci")
+    if [ -f "${etcdir}/.circleci" ]; then
+      _token=$(sed -n '1p' < "${etcdir}/.circleci")
+    else
+      _token=${CIRCLECI_CLI_TOKEN}
+    fi
 
     if [ -z "${token}" ] || [ "${token}" == "${_token}" ]; then
       read -e -p 'Enter CircleCI API token: ' token
@@ -245,7 +254,7 @@ function help() {
 }
 
 function init() {
-  echo "${token}" > "${etcdir}/circleci"
+  echo "${token}" > "${etcdir}/.circleci"
 
   case "$?" in
     0) echo '{"outcome": "success"}' | jq -r ${compact} ${monochrome} "${filter:=.}" ;;
