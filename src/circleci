@@ -36,7 +36,11 @@ while (( "$#" )); do
     --compact|-c) compact='-c' ; shift ;;
     --filter=*) filter=${1/--filter=/''} ; shift ;;
     --filter*|-f*) filter=${2} ; shift ; shift ;;
+    --limit=*) limit=${1/--limit=/''} ; shift ;;
+    --limit*|-l*) limit=${2} ; shift ; shift ;;
     --monochrome|-m) monochrome='-M' ; shift ;;
+    --offset=*) offset=${1/--offset=/''} ; shift ;;
+    --offset*|-o*) offset=${2} ; shift ; shift ;;
     --parameter-key=*) paramkeys+=(${1/--parameter-key=/}) ; shift ;;
     --parameter-key*|-K*) paramkeys+=(${2}) ; shift ; shift ;;
     --parameter-value=*) paramvals+=(${1/--parameter-value=/}) ; shift ;;
@@ -135,7 +139,12 @@ esac
 # COMMAND UTILITY FUNCTIONS #######################################################################
 function jqify() {
   case "${1}" in
-    GET) local rsp ; rsp=$(curl -f -s -H 'Accept: application/json' "${2}?circle-token=${token}") ;;
+    GET)
+      local rsp; rsp=$(\
+        curl -f -s \
+          -H 'Accept: application/json' \
+          "${2}?circle-token=${token}${limit:+"&limit=${limit}"}${offset:+"&offset=${offset}"}")
+    ;;
     POST)
       local rsp ; rsp=$(\
         curl -f -s -X POST \
@@ -188,7 +197,7 @@ function build() {
 }
 
 function builds() {
-  jqify GET "https://circleci.com/api/v1/project/${project}?circle-token=${token}"
+  jqify GET "https://circleci.com/api/v1/project/${project}"
 }
 
 function cancel() {
@@ -209,7 +218,8 @@ function help() {
   echo
   echo "  ${bin} build <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
   echo
-  echo "  ${bin} builds <project> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
+  echo "  ${bin} builds <project> [--compact|-c] [--filter|-f <filter>] [--limit|-l <limit>]"
+  echo '    [--monochrome|-m] [--offset|-o <offset>]'
   echo
   echo "  ${bin} cancel <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
   echo
