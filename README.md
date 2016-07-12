@@ -7,40 +7,65 @@
 [![chat](http://img.shields.io/badge/chat-slack-blue.svg)](https://rockymadden-slack.herokuapp.com/)
 [![circleci](http://img.shields.io/badge/circleci-passing-brightgreen.svg)](https://circleci.com/gh/rockymadden/circleci-cli)
 
-A simple, yet extremely flexible command line interface for [CircleCI](https://circleci.com). Deep
-integration with [jq](https://github.com/stedolan/jq) allows for the ability to perform complex
-operations upon JSON responses, helping you perform compositional operations (i.e. pipe chaining)
-with ease.
+A pure bash, feature rich command line interface for [CircleCI](https://circleci.com).
 
-__Simple workflow example:__
+__Example uses:__
 
-Perform code changes, test locally, `git add`, `git commit`, and then:
-
-```bash
-$ # Push up to GitHub repo, wait 10 seconds for the CircleCI hook to fire, then alert us to
-$ # CircleCI build success or failure via an OS X notification.
-$ git push && { sleep 10 ; circleci notify; } &
-```
-
-Resulting notification:
-
-![notification](http://share.rockymadden.com/461G1w1V340c/Image%202016-07-08%20at%2012.44.45.png)
-
-> __PROTIP:__ You can click notifications to be taken directly to the CircleCI build for further
-details.
+* Interacting with the CircleCI API via command line (obvious)
+* Get an OS X notification each time you `git push` which notifies you to the CircleCI build status
+  once finished
+* Perform advanced filtering upon JSON responses to do things that are not possible via the UI,
+  like getting a list of recently failed and/or currently executing builds
+* Perform advanced filtering upon JSON responses to do piped operations back into `circleci-cli`
+  and/or other CLIs (e.g. find failed builds and re-trigger them, find successful builds and feed
+  into a dashboard)
 
 ## Installation
 
+### Via homebrew tap:
+
 ```bash
-$ # Install from tap:
 $ brew tap rockymadden/rockymadden
 $ brew install circleci-cli
+```
 
-$ # Initialize:
+### Via curl:
+
+```bash
+$ curl -O https://raw.githubusercontent.com/rockymadden/circleci-cli/master/src/circleci
+$ chmod 755 circleci
+```
+
+> __PROTIP:__ You are responsible for having `stedolan/jq` and, optionally, `github/hub` on your
+path.
+
+### Via `make` from source:
+
+```bash
+$ git clone git@github.com:rockymadden/circleci-cli.git
+$ cd circleci-cli
+$ make install bindir=/path/to/bin etcdir=/path/to/etc
+```
+
+> __PROTIP:__ You are responsible for having `stedolan/jq` and, optionally, `github/hub` on your
+path.
+
+## Configure
+
+Ensure you have a [CircleCI API token](https://circleci.com/account/api) and use said token one of
+the following ways:
+
+### Via `init`:
+
+```bash
 $ circleci init
 ```
 
-> __PROTIP:__ Ensure you have a [CircleCI API token](https://circleci.com/account/api).
+### Via environment variable:
+
+```bash
+export CIRCLECI_CLI_TOKEN='token'
+```
 
 ## Usage
 
@@ -119,6 +144,28 @@ More Information:
   allows for both traditional usage and prompt-based usage.
 
 ## Examples and Recipes
+
+### CLI integrated workflow:
+
+Add an alias for `git push` which automatically notifies you via OS X notifications as to the
+success or failure of your CircleCI build from said `git push`:
+
+```bash
+alias gpn='f() { git push && { sleep 10 ; circleci notify; } &; }; f'
+```
+
+Now, perform code changes, `git add`, `git commit`, and then use the alias above to `git push`:
+
+```bash
+$ gpn
+```
+
+Resulting notification, each time you `gpn`:
+
+![notification](http://share.rockymadden.com/461G1w1V340c/Image%202016-07-08%20at%2012.44.45.png)
+
+> __PROTIP:__ You can click notifications to be taken directly to the CircleCI build for further
+details.
 
 ### `artifacts`:
 
