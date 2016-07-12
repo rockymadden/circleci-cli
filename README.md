@@ -36,16 +36,48 @@ details.
 
 ## Installation
 
+### Via homebrew tap:
+
 ```bash
-$ # Install from tap:
 $ brew tap rockymadden/rockymadden
 $ brew install circleci-cli
+```
 
-$ # Initialize:
+### Via curl:
+
+```bash
+$ curl -O https://raw.githubusercontent.com/rockymadden/circleci-cli/master/src/circleci
+$ chmod 755 circleci
+```
+
+> PROTIP: You are responsible for having `jq` and, optionally, `hub` on your path.
+
+### Via `make` from source:
+
+```bash
+$ git clone git@github.com:rockymadden/circleci-cli.git
+$ cd circleci-cli
+$ make install bindir=/path/to/bin etcdir=/path/to/etc
+```
+
+> PROTIP: You are responsible for having `jq` and, optionally, `hub` on your path.
+
+## Configure
+
+Ensure you have a [CircleCI API token](https://circleci.com/account/api) and use said token one of
+the following ways:
+
+### Via `init`:
+
+```bash
 $ circleci init
 ```
 
-> __PROTIP:__ Ensure you have a [CircleCI API token](https://circleci.com/account/api).
+### Via environment variable:
+
+```bash
+export CIRCLECI_CLI_TOKEN='token'
+```
 
 ## Usage
 
