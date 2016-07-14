@@ -53,7 +53,7 @@ $ make install bindir=/path/to/bin etcdir=/path/to/etc
 > __PROTIP:__ You are responsible for having `stedolan/jq` and, optionally, `github/hub` on your
 path.
 
-## Configure
+## Configuration
 
 Ensure you have a [CircleCI API token](https://circleci.com/account/api) and use said token one of
 the following ways:
