@@ -12,7 +12,8 @@ A pure bash, feature rich command line interface for [CircleCI](https://circleci
 __Sample use cases:__
 
 * Programmatically interacting with the CircleCI API
-* OS X notification integration (i.e. each `git push` notifies you about the CircleCI build success or failure)
+* OS X notification integration (i.e. each `git push` to GitHub notifies you about the eventual
+  CircleCI build success or failure)
    * Add alias: `alias gpn='f() { git push && { sleep 10 ; circleci notify; } &; }; f'`
    * Push with notifications: `gpn`
 * Perform advanced filtering upon JSON responses to do things that are not possible via the UI,
