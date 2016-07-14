@@ -53,6 +53,7 @@ while (( "$#" )); do
     --revision*|-R*) revision=${2} ; shift ; shift ;;
     --token=*) token=${1/--token=/''} ; shift ;;
     --token|-t*) token=${2} ; shift ; shift ;;
+    --trace|-x) trace='set -x' ; shift ;;
     --)
       case "${cmd}" in
         trigger) [ -n "${project}" ] && branch=$(placehold-branch) ;;
@@ -89,6 +90,9 @@ while (( "$#" )); do
     ;;
   esac
 done
+
+# TRACING #########################################################################################
+${trace}
 
 # IMPLICIT/DEFAULT ARGUMENTS AND OPTIONS ##########################################################
 case "${cmd}" in
