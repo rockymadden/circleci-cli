@@ -39,8 +39,7 @@ $ curl -O https://raw.githubusercontent.com/rockymadden/circleci-cli/master/src/
 $ chmod 755 circleci
 ```
 
-> __PROTIP:__ You are responsible for having `stedolan/jq` and, optionally, `github/hub` on your
-path.
+> __PROTIP:__ You are responsible for having `stedolan/jq` and `github/hub` on your `$PATH`.
 
 ### Via `make`:
 
@@ -50,8 +49,7 @@ $ cd circleci-cli
 $ make install bindir=/path/to/bin etcdir=/path/to/etc
 ```
 
-> __PROTIP:__ You are responsible for having `stedolan/jq` and, optionally, `github/hub` on your
-path.
+> __PROTIP:__ You are responsible for having `stedolan/jq` and `github/hub` on your `$PATH`.
 
 ## Configuration
 
