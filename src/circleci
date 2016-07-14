@@ -213,34 +213,48 @@ function help() {
   local bin=${a[${#a[@]}-1]}
 
   echo 'Usage:'
-  echo "  ${bin} artifacts <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
+  echo "  ${bin} artifacts <project> <build>"
+  echo '    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--trace|-x]'
   echo
-  echo "  ${bin} await <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
-  echo '    [--resolution|-r <seconds>]'
+  echo "  ${bin} await <project> <build>"
+  echo '    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--resolution|-r <seconds>]'
+  echo '    [--trace|-x]'
   echo
   echo "  ${bin} browse <project> [build]"
+  echo '    [--trace|-x]'
   echo
-  echo "  ${bin} build <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
+  echo "  ${bin} build <project> <build>"
+  echo '    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--trace|-x]'
   echo
-  echo "  ${bin} builds <project> [--compact|-c] [--filter|-f <filter>] [--limit|-l <limit>]"
-  echo '    [--monochrome|-m] [--offset|-o <offset>]'
+  echo "  ${bin} builds <project>"
+  echo '    [--compact|-c] [--filter|-f <filter>] [--limit|-l <limit>] [--monochrome|-m]'
+  echo '    [--offset|-o <offset>] [--trace|-x]'
   echo
-  echo "  ${bin} cancel <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
+  echo "  ${bin} cancel <project> <build>"
+  echo '    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--trace|-x]'
   echo
-  echo "  ${bin} init [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--token|-t <token>]"
+  echo "  ${bin} init"
+  echo '    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--token|-t <token>]'
+  echo '    [--trace|-x]'
   echo
-  echo "  ${bin} me [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
+  echo "  ${bin} me"
+  echo '    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--trace|-x]'
   echo
-  echo "  ${bin} notify <project> <build> [--resolution|-r <seconds>]"
+  echo "  ${bin} notify <project> <build>"
+  echo '    [--resolution|-r <seconds>] [--trace|-x]'
   echo
-  echo "  ${bin} project <project> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
+  echo "  ${bin} project <project>"
+  echo '    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--trace|-x]'
   echo
-  echo "  ${bin} projects [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
+  echo "  ${bin} projects"
+  echo '    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--trace|-x]'
   echo
-  echo "  ${bin} retry <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
+  echo "  ${bin} retry <project> <build>"
+  echo '    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--trace|-x]'
   echo
-  echo "  ${bin} trigger <project> <branch> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]"
-  echo '    [--parameter-key|-K <key>] [--parameter-value|-V <value>] [--revision|-R <revision>]'
+  echo "  ${bin} trigger <project> <branch>"
+  echo '    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--parameter-key|-K <key>]'
+  echo '    [--parameter-value|-V <value>] [--revision|-R <revision>] [--trace|-x]'
   echo
   echo 'Configuration Commands:'
   echo '  init    Initialize'

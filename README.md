@@ -72,34 +72,48 @@ export CIRCLECI_CLI_TOKEN='token'
 ```bash
 $ circleci --help
 Usage:
-  circleci artifacts <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+  circleci artifacts <project> <build>
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--trace|-x]
 
-  circleci await <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
-    [--resolution|-r <seconds>]
+  circleci await <project> <build>
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--resolution|-r <seconds>]
+    [--trace|-x]
 
   circleci browse <project> [build]
+    [--trace|-x]
 
-  circleci build <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+  circleci build <project> <build>
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--trace|-x]
 
-  circleci builds <project> [--compact|-c] [--filter|-f <filter>] [--limit|-l <limit>]
-    [--monochrome|-m] [--offset|-o <offset>]
+  circleci builds <project>
+    [--compact|-c] [--filter|-f <filter>] [--limit|-l <limit>] [--monochrome|-m]
+    [--offset|-o <offset>] [--trace|-x]
 
-  circleci cancel <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+  circleci cancel <project> <build>
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--trace|-x]
 
-  circleci init [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--token|-t <token>]
+  circleci init
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--token|-t <token>]
+    [--trace|-x]
 
-  circleci me [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+  circleci me
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--trace|-x]
 
-  circleci notify <project> <build> [--resolution|-r <seconds>]
+  circleci notify <project> <build>
+    [--resolution|-r <seconds>] [--trace|-x]
 
-  circleci project <project> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+  circleci project <project>
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--trace|-x]
 
-  circleci projects [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+  circleci projects
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--trace|-x]
 
-  circleci retry <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+  circleci retry <project> <build>
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--trace|-x]
 
-  circleci trigger <project> <branch> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
-    [--parameter-key|-K <key>] [--parameter-value|-V <value>] [--revision|-R <revision>]
+  circleci trigger <project> <branch>
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--parameter-key|-K <key>]
+    [--parameter-value|-V <value>] [--revision|-R <revision>] [--trace|-x]
 
 Configuration Commands:
   init    Initialize
