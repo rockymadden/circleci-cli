@@ -16,8 +16,8 @@ __Sample use cases:__
   CircleCI build success or failure)
    * Add alias: `alias gpn='f() { git push && { sleep 10 ; circleci notify; } &; }; f'`
    * Push with notifications: `gpn`
-* Perform advanced filtering upon JSON responses to do things that are not possible via the UI,
-  like getting a list of recently failed and/or currently executing builds
+* Perform advanced filtering/querying upon JSON responses to do things that are not possible via
+  the UI
   * View build numbers of successful builds: `circleci builds --filter '.[] | select(.status=="success") | .build_num'`
 * Perform advanced filtering upon JSON responses to do piped operations back into `circleci-cli`
   and/or other CLIs (e.g. find failed builds and re-trigger them, find successful builds and feed
