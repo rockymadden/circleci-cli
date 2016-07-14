@@ -9,13 +9,15 @@
 
 A pure bash, feature rich command line interface for [CircleCI](https://circleci.com).
 
-__Example uses:__
+__Sample use cases:__
 
-* Interacting with the CircleCI API via command line (obvious)
-* Get an OS X notification each time you `git push` which notifies you to the CircleCI build status
-  once finished
+* Programmatically interacting with the CircleCI API
+* OS X notification integration (i.e. each `git push` notifies you about the CircleCI build success or failure)
+   * Add alias: `alias gpn='f() { git push && { sleep 10 ; circleci notify; } &; }; f'`
+   * Push with notifications: `gpn`
 * Perform advanced filtering upon JSON responses to do things that are not possible via the UI,
   like getting a list of recently failed and/or currently executing builds
+  * View build numbers of successful builds: `circleci builds --filter '.[] | select(.status=="success") | .build_num'`
 * Perform advanced filtering upon JSON responses to do piped operations back into `circleci-cli`
   and/or other CLIs (e.g. find failed builds and re-trigger them, find successful builds and feed
   into a dashboard)
@@ -157,30 +159,6 @@ More Information:
   `--monochrome-output` option
 * All commands prompt for required arguments which were not provided via options or arguments. This
   allows for both traditional usage and prompt-based usage.
-
-## Examples and Recipes
-
-### CLI integrated workflow:
-
-Add an alias for `git push` which automatically notifies you via OS X notifications as to the
-success or failure of your CircleCI build from said `git push`:
-
-```bash
-alias gpn='f() { git push && { sleep 10 ; circleci notify; } &; }; f'
-```
-
-Now, perform code changes, `git add`, `git commit`, and then use the alias above to `git push`:
-
-```bash
-$ gpn
-```
-
-Resulting notification, each time you `gpn`:
-
-![notification](http://share.rockymadden.com/461G1w1V340c/Image%202016-07-08%20at%2012.44.45.png)
-
-> __PROTIP:__ You can click notifications to be taken directly to the CircleCI build for further
-details.
 
 ### `artifacts`:
 
