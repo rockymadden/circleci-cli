@@ -9,13 +9,16 @@
 
 A pure bash, feature rich command line interface for [CircleCI](https://circleci.com).
 
-__Example uses:__
+__Sample use cases:__
 
-* Interacting with the CircleCI API via command line (obvious)
-* Get an OS X notification each time you `git push` which notifies you to the CircleCI build status
-  once finished
-* Perform advanced filtering upon JSON responses to do things that are not possible via the UI,
-  like getting a list of recently failed and/or currently executing builds
+* Programmatically interact with the CircleCI API
+* OS X notification integration (i.e. each `git push` to GitHub notifies you about the eventual
+  CircleCI build success or failure)
+   * Add alias: `alias gpn='f() { git push && { sleep 10 ; circleci notify; } &; }; f'`
+   * Push with notifications: `gpn`
+* Perform advanced filtering/querying upon JSON responses to do things that are not possible via
+  the UI
+  * View build numbers of successful builds: `circleci builds --filter '.[] | select(.status=="success") | .build_num'`
 * Perform advanced filtering upon JSON responses to do piped operations back into `circleci-cli`
   and/or other CLIs (e.g. find failed builds and re-trigger them, find successful builds and feed
   into a dashboard)
@@ -36,8 +39,7 @@ $ curl -O https://raw.githubusercontent.com/rockymadden/circleci-cli/master/src/
 $ chmod 755 circleci
 ```
 
-> __PROTIP:__ You are responsible for having `stedolan/jq` and, optionally, `github/hub` on your
-path.
+> __PROTIP:__ You are responsible for having `stedolan/jq` and `github/hub` on your `$PATH`.
 
 ### Via `make`:
 
@@ -47,10 +49,9 @@ $ cd circleci-cli
 $ make install bindir=/path/to/bin etcdir=/path/to/etc
 ```
 
-> __PROTIP:__ You are responsible for having `stedolan/jq` and, optionally, `github/hub` on your
-path.
+> __PROTIP:__ You are responsible for having `stedolan/jq` and `github/hub` on your `$PATH`.
 
-## Configure
+## Configuration
 
 Ensure you have a [CircleCI API token](https://circleci.com/account/api) and use said token one of
 the following ways:
@@ -72,34 +73,48 @@ export CIRCLECI_CLI_TOKEN='token'
 ```bash
 $ circleci --help
 Usage:
-  circleci artifacts <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+  circleci artifacts <project> <build>
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--trace|-x]
 
-  circleci await <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
-    [--resolution|-r <seconds>]
+  circleci await <project> <build>
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--resolution|-r <seconds>]
+    [--trace|-x]
 
   circleci browse <project> [build]
+    [--trace|-x]
 
-  circleci build <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+  circleci build <project> <build>
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--trace|-x]
 
-  circleci builds <project> [--compact|-c] [--filter|-f <filter>] [--limit|-l <limit>]
-    [--monochrome|-m] [--offset|-o <offset>]
+  circleci builds <project>
+    [--compact|-c] [--filter|-f <filter>] [--limit|-l <limit>] [--monochrome|-m]
+    [--offset|-o <offset>] [--trace|-x]
 
-  circleci cancel <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+  circleci cancel <project> <build>
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--trace|-x]
 
-  circleci init [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--token|-t <token>]
+  circleci init
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--token|-t <token>]
+    [--trace|-x]
 
-  circleci me [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+  circleci me
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--trace|-x]
 
-  circleci notify <project> <build> [--resolution|-r <seconds>]
+  circleci notify <project> <build>
+    [--resolution|-r <seconds>] [--trace|-x]
 
-  circleci project <project> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+  circleci project <project>
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--trace|-x]
 
-  circleci projects [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+  circleci projects
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--trace|-x]
 
-  circleci retry <project> <build> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
+  circleci retry <project> <build>
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--trace|-x]
 
-  circleci trigger <project> <branch> [--compact|-c] [--filter|-f <filter>] [--monochrome|-m]
-    [--parameter-key|-K <key>] [--parameter-value|-V <value>] [--revision|-R <revision>]
+  circleci trigger <project> <branch>
+    [--compact|-c] [--filter|-f <filter>] [--monochrome|-m] [--parameter-key|-K <key>]
+    [--parameter-value|-V <value>] [--revision|-R <revision>] [--trace|-x]
 
 Configuration Commands:
   init    Initialize
@@ -143,30 +158,6 @@ More Information:
   `--monochrome-output` option
 * All commands prompt for required arguments which were not provided via options or arguments. This
   allows for both traditional usage and prompt-based usage.
-
-## Examples and Recipes
-
-### CLI integrated workflow:
-
-Add an alias for `git push` which automatically notifies you via OS X notifications as to the
-success or failure of your CircleCI build from said `git push`:
-
-```bash
-alias gpn='f() { git push && { sleep 10 ; circleci notify; } &; }; f'
-```
-
-Now, perform code changes, `git add`, `git commit`, and then use the alias above to `git push`:
-
-```bash
-$ gpn
-```
-
-Resulting notification, each time you `gpn`:
-
-![notification](http://share.rockymadden.com/461G1w1V340c/Image%202016-07-08%20at%2012.44.45.png)
-
-> __PROTIP:__ You can click notifications to be taken directly to the CircleCI build for further
-details.
 
 ### `artifacts`:
 
